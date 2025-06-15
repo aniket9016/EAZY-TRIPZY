@@ -20,7 +20,8 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LogoutIcon from "@mui/icons-material/Logout";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import HotelIcon from "@mui/icons-material/Hotel"; // New import
+import HotelIcon from "@mui/icons-material/Hotel";
+import RestaurantIcon from "@mui/icons-material/Restaurant"; // 🍽️ Icon
 import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
@@ -91,6 +92,13 @@ export default function Layout() {
           <ListItemText primary="Hotels" />
         </ListItemButton>
 
+        <ListItemButton onClick={() => navigate("/restaurants")}>
+          <ListItemIcon sx={{ color: "#fff" }}>
+            <RestaurantIcon />
+          </ListItemIcon>
+          <ListItemText primary="Restaurants" />
+        </ListItemButton>
+
         <ListItemButton onClick={() => navigate("/carbookings")}>
           <ListItemIcon sx={{ color: "#fff" }}>
             <BookOnlineIcon />
@@ -139,7 +147,7 @@ export default function Layout() {
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="sidebar navigation"
       >
-        {/* Sidebar for mobile */}
+        {/* Mobile Drawer */}
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -157,7 +165,7 @@ export default function Layout() {
           {drawer}
         </Drawer>
 
-        {/* Sidebar for desktop */}
+        {/* Desktop Drawer */}
         <Drawer
           variant="permanent"
           open
@@ -175,7 +183,7 @@ export default function Layout() {
         </Drawer>
       </Box>
 
-      {/* Main content area */}
+      {/* Main Content */}
       <Box
         component="main"
         sx={{

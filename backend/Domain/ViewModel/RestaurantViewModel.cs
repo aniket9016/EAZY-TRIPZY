@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 namespace Domain.ViewModel
@@ -12,30 +7,45 @@ namespace Domain.ViewModel
     public class RestaurantViewModel
     {
         public Guid ID { get; set; }
-        public String Name { get; set; }
-        public String Desc { get; set; }
-        public String Address { get; set; }
-        public String Country { get; set; }
-        public String City { get; set; }
-        public String PhoneNumber { get; set; }
-        public String Meals { get; set; }
-        public String image { get; set; }
+        public string Name { get; set; }
+        public string Desc { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Meals { get; set; }
+        public string image { get; set; }
     }
 
     public class RestaurantInsertViewModel
     {
-        public String Name { get; set; }
-        public String Desc { get; set; }
-        public String Address { get; set; }
-        public String Country { get; set; }
-        public String City { get; set; }
-        public String PhoneNumber { get; set; }
-        public String Meals { get; set; }
-        public IFormFile image { get; set; }
+        [Required]
+        public string Name { get; set; }
+        public string Desc { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Meals { get; set; }
+
+        public IFormFile? image { get; set; }
     }
 
-    public class RestaurantUpdateViewModel : RestaurantInsertViewModel
+    public class RestaurantUpdateViewModel
     {
+        [Required]
         public Guid ID { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+        public string Desc { get; set; }
+        public string Address { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Meals { get; set; }
+
+        public IFormFile? image { get; set; }
+        public string? ExistingImage { get; set; }
     }
 }

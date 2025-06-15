@@ -42,7 +42,7 @@ namespace Web.Controllers
 
         [Route("AddRestaurant")]
         [HttpPost]
-        public async Task<IActionResult> Add(RestaurantInsertViewModel cats)
+        public async Task<IActionResult> Add([FromForm] RestaurantInsertViewModel cats)
         {
             if (ModelState.IsValid)
             {
@@ -55,15 +55,32 @@ namespace Web.Controllers
 
         [Route("EditRestaurant/{id}")]
         [HttpPatch]
-        public async Task<IActionResult> update(RestaurantUpdateViewModel cat)
+        public async Task<IActionResult> Update([FromForm] RestaurantUpdateViewModel cat)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return BadRequest("Invalid model");
+
+            string img;
+
+            if (cat.image != null)
             {
-                var img = await UploadImage(cat.image, cat.Name);
-                await _restaurantService.Update(cat, img);
-                return Ok();
+                img = await UploadImage(cat.image, cat.Name);
             }
-            return BadRequest("Something Went Wrong");
+            else if (!string.IsNullOrEmpty(cat.ExistingImage))
+            {
+                img = cat.ExistingImage;
+            }
+            else
+            {
+                var existingRestaurant = await _restaurantService.Get(cat.ID);
+                if (existingRestaurant == null)
+                    return NotFound("Restaurant not found");
+
+                img = existingRestaurant.image;
+            }
+
+            await _restaurantService.Update(cat, img);
+            return Ok();
         }
 
         [Route("RemoveRestaurant/{id}")]
@@ -78,31 +95,31 @@ namespace Web.Controllers
             return NotFound();
         }
 
-        private async Task<String> UploadImage(IFormFile images, String id)
+        private async Task<string> UploadImage(IFormFile images, string id)
         {
-            String file;
-            String ContentPath = this.environment.ContentRootPath;
-            var extension = "." + images.FileName.Split('.')[images.FileName.Split('.').Length - 1];
+            string file;
+            string ContentPath = this.environment.ContentRootPath;
+            var extension = "." + images.FileName.Split('.')[^1];
             if (extension == ".png" || extension == ".jpg" || extension == ".jpeg")
             {
                 file = id.ToLower() + "-" + extension;
-                String newFileName = Regex.Replace(file, @"[^0-9a-zA-Z.]+", "");
-                var paths = Path.Combine(ContentPath, "Images\\Car");
+                string newFileName = Regex.Replace(file, @"[^0-9a-zA-Z.]+", "");
+                var paths = Path.Combine(ContentPath, "Images\\Restaurant");
 
                 if (!Directory.Exists(paths))
                 {
                     Directory.CreateDirectory(paths);
                 }
-                var path = Path.Combine(ContentPath, "Images\\Car", newFileName);
+
+                var path = Path.Combine(paths, newFileName);
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await images.CopyToAsync(stream);
                 }
+
                 return newFileName;
             }
-            else
-                return "";
-
+            return "";
         }
     }
 }
