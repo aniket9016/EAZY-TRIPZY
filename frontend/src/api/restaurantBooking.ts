@@ -1,3 +1,5 @@
+// src/api/restaurantBooking.ts
+
 import axios from "axios";
 
 const BASE_URL = "https://localhost:7032/api/RestaurantBooking";
@@ -14,7 +16,7 @@ export const getRestaurantBookingById = (id: string) => {
   });
 };
 
-// ADD a booking (JSON payload)
+// ADD a booking
 export const addRestaurantBooking = (data: {
   restaurantID: string;
   userID: string;
@@ -27,17 +29,24 @@ export const addRestaurantBooking = (data: {
   return axios.post(`${BASE_URL}/AddRestaurantBooking`, data);
 };
 
-// EDIT a booking by ID (JSON payload)
-export const editRestaurantBooking = (id: string, data: {
-  restaurantID: string;
-  userID: string;
-  mealTime: string;
-  totalPeople: string;
-  bookingDate: string;
-  mealDate: string;
-  status: string;
-}) => {
-  return axios.patch(`${BASE_URL}/EditRestaurantBooking/${id}`, data);
+// EDIT a booking (ID goes in URL and also in body as restaurantBookingId)
+export const editRestaurantBooking = (
+  id: string,
+  data: {
+    restaurantID: string;
+    userID: string;
+    mealTime: string;
+    totalPeople: string;
+    bookingDate: string;
+    mealDate: string;
+    status: string;
+  }
+) => {
+  const payload = {
+    ...data,
+    restaurantBookingId: id,
+  };
+  return axios.patch(`${BASE_URL}/EditRestaurantBooking/${id}`, payload);
 };
 
 // DELETE a booking by ID

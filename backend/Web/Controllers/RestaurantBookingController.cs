@@ -50,11 +50,12 @@ namespace Web.Controllers
         }
 
         [Route("EditRestaurantBooking/{id}")]
-        [HttpPatch] 
-        public async Task<IActionResult> update(RestaurantBookingUpdateViewModel cat)
+        [HttpPatch]
+        public async Task<IActionResult> update(Guid id, [FromBody] RestaurantBookingUpdateViewModel cat)
         {
             if (ModelState.IsValid)
             {
+                cat.RestaurantBookingId = id; 
                 await _restaurantBookingService.Update(cat);
                 return Ok();
             }
