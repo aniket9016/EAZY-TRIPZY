@@ -12,5 +12,5 @@ export const updateFlight = (formData: FormData) =>
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-export const deleteFlight = (id: number) =>
+export const deleteFlight = (id: string) =>
   API.delete(`/Flight/RemoveFlight?id=${id}`);
