@@ -1,0 +1,302 @@
+-- Insert 1
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = 'FA59D71B-8085-40EE-9B79-04036C035077')
+INSERT INTO [dbo].[Car] VALUES ('FA59D71B-8085-40EE-9B79-04036C035077', 'Electric van for commercial use', 35000, 'UK', 'London', 8, 'audi.jpg', 'Ford Transit EV');
+
+-- Insert 2
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = 'EC36CD55-DCAB-4E6E-8CD9-03DDABD07574')
+INSERT INTO [dbo].[Car] VALUES ('EC36CD55-DCAB-4E6E-8CD9-03DDABD07574', 'Top speed machine', 30000, 'India', 'Surat', 2, 'audi8.jpg', 'BMW');
+
+-- Insert 3
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = 'C1F3B7A1-26F7-44FC-B025-0BDDA868E75E')
+INSERT INTO [dbo].[Car] VALUES ('C1F3B7A1-26F7-44FC-B025-0BDDA868E75E', 'Fastest car in the world', 45000, 'Japan', 'Tokyo', 2, 'mclaren.jpg', 'MC Laren');
+
+-- Insert 4
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = '3B45AF13-B945-48F8-8CAC-1B12C31DCBF8')
+INSERT INTO [dbo].[Car] VALUES ('3B45AF13-B945-48F8-8CAC-1B12C31DCBF8', 'Luxury electric sedan with autopilot', 60000, 'USA', 'Los Angeles', 5, 'bmw.jpg', 'Tesla Model S');
+
+-- Insert 5
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = '6D52372F-D085-4108-8EC9-70A4049EBC01')
+INSERT INTO [dbo].[Car] VALUES ('6D52372F-D085-4108-8EC9-70A4049EBC01', 'Budget car for daily commute', 25000, 'Brazil', 'Sao Paulo', 4, 'bmw5series.jpg', 'Renault Kwid');
+
+-- Insert 6
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = 'DAF3858F-7978-4816-8098-8F9097BC7BC2')
+INSERT INTO [dbo].[Car] VALUES ('DAF3858F-7978-4816-8098-8F9097BC7BC2', 'Off-road pickup truck', 28000, 'Australia', 'Sydney', 5, 'car1.jpg', 'Toyota Hilux');
+
+-- Insert 7
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = 'FFFCFA8E-BFAB-4438-A9AF-965DD7D2C761')
+INSERT INTO [dbo].[Car] VALUES ('FFFCFA8E-BFAB-4438-A9AF-965DD7D2C761', 'Compact electric car with fast charging', 32000, 'USA', 'New York', 4, 'car156.jpg', 'Tesla Model 3');
+
+-- Insert 8
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = '9AE040B9-32C3-42E9-A8A7-9AEB9F58EFB6')
+INSERT INTO [dbo].[Car] VALUES ('9AE040B9-32C3-42E9-A8A7-9AEB9F58EFB6', 'SUV with spacious interior and 4WD', 30000, 'India', 'Mumbai', 7, 'car2.jpg', 'Mahindra XUV700');
+
+-- Insert 9
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = 'AB9D16DE-4E1A-8D0E-A8F72742F178')
+INSERT INTO [dbo].[Car] VALUES ('AB9D16DE-4E1A-8D0E-A8F72742F178', 'Convertible sports car', 42000, 'Italy', 'Rome', 2, 'car277.jpg', 'Ferrari Portofino');
+
+-- Insert 10
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = 'D674C9FC-30C1-40A9-91EF-A99974561588')
+INSERT INTO [dbo].[Car] VALUES ('D674C9FC-30C1-40A9-91EF-A99974561588', 'Luxury sedan with premium features', 40000, 'Germany', 'Berlin', 5, 'car3.jpg', 'BMW 5 Series');
+
+-- Insert 11
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = '87452728-5DC6-4517-B9F7-AE1B1AE4A24D')
+INSERT INTO [dbo].[Car] VALUES ('87452728-5DC6-4517-B9F7-AE1B1AE4A24D', 'Crossover with hybrid engine', 25000, 'USA', 'San Francisco', 5, 'car4.jpg', 'Hyundai Kona');
+
+-- Insert 12
+IF NOT EXISTS (SELECT 1 FROM [dbo].[Car] WHERE ID = 'A71D04D4-B5B2-49D6-9B7E-F849BF40A2D9')
+INSERT INTO [dbo].[Car] VALUES ('A71D04D4-B5B2-49D6-9B7E-F849BF40A2D9', 'Economy hatchback with great mileage', 12000, 'Japan', 'Tokyo', 5, 'nissankicks.jpg', 'Toyota Yaris');
+
+
+
+-- Insert 1
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = 'F5B87456-C8EC-4B75-BAE1-16591945DB45')
+INSERT INTO [dbo].[User] VALUES ('F5B87456-C8EC-4B75-BAE1-16591945DB45', 'ryan.b@example.com', 'ryanpass', '1994-04-10', 'Ryan Black');
+
+-- Insert 2
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = 'A6BEE576-7B8D-437D-AFE6-261F81DD1404')
+INSERT INTO [dbo].[User] VALUES ('A6BEE576-7B8D-437D-AFE6-261F81DD1404', 'michael.t@example.com', 'mike2021', '1993-09-08', 'Michael Taylor');
+
+-- Insert 3
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = 'E609FEFB-ACDD-49BF-8D81-43C3CFA46EB9')
+INSERT INTO [dbo].[User] VALUES ('E609FEFB-ACDD-49BF-8D81-43C3CFA46EB9', 'olivia.k@example.com', 'oliv5678', '1990-06-21', 'Olivia King');
+
+-- Insert 4
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = '35ACD176-1730-41DB-A5E1-5FDAFDA25CB6')
+INSERT INTO [dbo].[User] VALUES ('35ACD176-1730-41DB-A5E1-5FDAFDA25CB6', 'bob.jones@example.com', 'bob12345', '1985-10-15', 'Bob Jones');
+
+-- Insert 5
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = '9C03D5FE-113E-416C-BCFE-66C6ADD3C27D')
+INSERT INTO [dbo].[User] VALUES ('9C03D5FE-113E-416C-BCFE-66C6ADD3C27D', 'john.doe@example.com', 'pass1234', '1990-05-12', 'John Doe');
+
+-- Insert 6
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = 'B734B598-573E-499A-8775-71B5599789FC')
+INSERT INTO [dbo].[User] VALUES ('B734B598-573E-499A-8775-71B5599789FC', 'jane.smith@example.com', 'jsmith88', '1988-11-22', 'Jane Smith');
+
+-- Insert 7
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = '03F66196-01CE-460F-A0DA-894B27EA7FCB')
+INSERT INTO [dbo].[User] VALUES ('03F66196-01CE-460F-A0DA-894B27EA7FCB', 'emma.l@example.com', 'emma88x', '1991-01-19', 'Emma Lee');
+
+-- Insert 8
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = 'DE2059FF-7984-437E-80FD-2AFBC26F0C8D')
+INSERT INTO [dbo].[User] VALUES ('DE2059FF-7984-437E-80FD-2AFBC26F0C8D', 'alice.w@example.com', 'alice789', '1992-07-30', 'Alice White');
+
+-- Insert 9
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = 'FDBE2E06-D2B6-4641-9697-C32F4C3E962D')
+INSERT INTO [dbo].[User] VALUES ('FDBE2E06-D2B6-4641-9697-C32F4C3E962D', 'david.c@example.com', 'dave4321', '1987-12-03', 'David Clark');
+
+-- Insert 10
+IF NOT EXISTS (SELECT 1 FROM [dbo].[User] WHERE ID = '77B9D576-FFC0-4037-BD14-E91B6FCE1D66')
+INSERT INTO [dbo].[User] VALUES ('77B9D576-FFC0-4037-BD14-E91B6FCE1D66', 'sophia.m@example.com', 'sophiaM1', '1996-08-27', 'Sophia Moore');
+INSERT INTO [Tourist_Guide_Database].[dbo].[Location] ([ID], [address], [city], [state], [country], [zip_code], [latitude], [longitude], [Name]) VALUES
+('16E5D2E2-A98C-4992-B2FB-1711E8C377DF', 'Periyar Wildlife Sanctuary', 'Thekkady', 'Kerala', 'India', '685536', 9.5930, 77.1622, 'Thekkady Forest'),
+('C8EF2AD7-9C72-4684-A765-5940D12E6156', 'Marina Bay Sands', 'Singapore', '-', 'Singapore', '018956', 1.2834, 103.8607, 'Marina Bay'),
+('E36D1DA8-DC6D-4554-875E-5CD6CD9F8495', 'Ubud Main Road', 'Bali', 'Bali', 'Indonesia', '80571', -8.5190, 115.2637, 'Bali Ubud'),
+('20DDF316-7384-4DBB-A2DB-7E775E515F98', 'Pink City Area', 'Jaipur', 'Rajasthan', 'India', '302001', 26.9124, 75.7873, 'Jaipur City'),
+('FE323E19-5D1D-4502-8FEF-8C271797933F', 'Calangute Beach Road', 'Goa', 'Goa', 'India', '403516', 15.5439, 73.7553, 'Goa Location'),
+('18D789F4-E05F-4BC7-8D4F-B71FA4A31564', 'Bandra West', 'Mumbai', 'Maharashtra', 'India', '400050', 19.0600, 72.8300, 'Mumbai Bandra'),
+('DAFA2446-5F10-4FD3-BD49-B97D6B18C5C7', 'MG Marg', 'Gangtok', 'Sikkim', 'India', '737101', 27.3389, 88.6065, 'Gangtok City'),
+('C3AED3E7-6D11-4422-A6EA-DD4B06A642DF', 'Sector 18', 'Noida', 'Uttar Pradesh', 'India', '201301', 28.5672, 77.3210, 'Noida Central'),
+('261C491D-264A-4794-A2BC-E53693CABC97', 'Railway Road', 'Ahmedabad', 'Gujarat', 'India', '380002', 23.0225, 72.5714, 'Ahmedabad Station'),
+('DAE24021-D7B4-4250-B033-F601B3B93542', 'Downtown Dubai', 'Dubai', 'Dubai', 'UAE', '00000', 25.2048, 55.2708, 'Dubai Center');
+
+
+
+
+INSERT INTO [Tourist_Guide_Database].[dbo].[CarBooking] (
+    [ID], [userID], [carID], [Pickup_Location_Id], [Return_Location_Id],
+    [PickupDate], [ReturnDate], [BookingDate],
+    [Rental_days], [TotalAmount], [Status]
+)
+VALUES 
+('0A7E8F59-5C3E-4D18-BF25-111111111111', 'F5B87456-C8EC-4B75-BAE1-16591945DB45', 'EC36CD55-DCAB-4E6E-8CD9-03DDABD07574', '16E5D2E2-A98C-4992-B2FB-1711E8C377DF', 'C8EF2AD7-9C72-4684-A765-5940D12E6156', '2025-06-18', '2025-06-20', '2025-06-16', 2, 7400, 'Confirmed'),
+
+('1B8E9A00-5D3E-4E10-BF25-222222222222', 'A6BEE576-7B8D-437D-AFE6-261F81DD1404', 'FA59D71B-8085-40EE-9B79-04036C035077', 'E36D1DA8-DC6D-4554-875E-5CD6CD9F8495', '20DDF316-7384-4DBB-A2DB-7E775E515F98', '2025-06-22', '2025-06-25', '2025-06-21', 3, 9900, 'Confirmed'),
+
+('2C9F0B11-5E4F-4F22-BF25-333333333333', 'DE2059FF-7984-437E-80FD-2AFBC26F0C8D', 'C1F3B7A1-26F7-44FC-B025-0BDDA868E75E', 'FE323E19-5D1D-4502-8FEF-8C271797933F', '18D789F4-E05F-4BC7-8D4F-B71FA4A31564', '2025-06-15', '2025-06-18', '2025-06-14', 3, 8700, 'Confirmed'),
+
+('3D0A1C22-5F60-5034-BF25-444444444444', 'E609FEFB-ACDD-49BF-8D81-43C3CFA46EB9', '3B45AF13-B945-48F8-8CAC-1B12C31DCBF8', 'DAFA2446-5F10-4FD3-BD49-B97D6B18C5C7', 'C3AED3E7-6D11-4422-A6EA-DD4B06A642DF', '2025-06-10', '2025-06-13', '2025-06-09', 3, 8100, 'Confirmed'),
+
+('4E1B2D33-6071-5146-BF25-555555555555', '35ACD176-1730-41DB-A5E1-5FDAFDA25CB6', '6D52372F-D085-4108-8EC9-70A4049EBC01', '261C491D-264A-4794-A2BC-E53693CABC97', 'DAE24021-D7B4-4250-B033-F601B3B93542', '2025-06-12', '2025-06-14', '2025-06-10', 2, 6700, 'Confirmed'),
+
+('5F2C3E44-6182-5258-BF25-666666666666', '9C03D5FE-113E-416C-BCFE-66C6ADD3C27D', 'DAF3858F-7978-4816-8098-8F9097BC7BC2', '16E5D2E2-A98C-4992-B2FB-1711E8C377DF', 'C8EF2AD7-9C72-4684-A765-5940D12E6156', '2025-06-21', '2025-06-24', '2025-06-20', 3, 9600, 'Confirmed'),
+
+('603D4F55-6293-536A-BF25-777777777777', 'B734B598-573E-499A-8775-71B5599789FC', 'FFFCFA8E-BFAB-4438-A9AF-965DD7D2C761', 'E36D1DA8-DC6D-4554-875E-5CD6CD9F8495', '20DDF316-7384-4DBB-A2DB-7E775E515F98', '2025-06-23', '2025-06-26', '2025-06-21', 3, 9100, 'Confirmed'),
+
+('714E5066-63A4-547C-BF25-888888888888', '03F66196-01CE-460F-A0DA-894B27EA7FCB', '9AE040B9-32C3-42E9-A8A7-9AEB9F58EFB6', 'FE323E19-5D1D-4502-8FEF-8C271797933F', '18D789F4-E05F-4BC7-8D4F-B71FA4A31564', '2025-06-15', '2025-06-16', '2025-06-13', 1, 4100, 'Confirmed'),
+
+('825F6177-64B5-558E-BF25-999999999999', 'FDBE2E06-D2B6-4641-9697-C32F4C3E962D', '9C96FC63-42BD-4E1A-8D0E-A8F727472B13', 'DAFA2446-5F10-4FD3-BD49-B97D6B18C5C7', 'C3AED3E7-6D11-4422-A6EA-DD4B06A642DF', '2025-06-20', '2025-06-23', '2025-06-18', 3, 9400, 'Confirmed'),
+
+('93607288-65C6-569F-BF25-AAAAAAAAAAAA', '77B9D576-FFC0-4037-BD14-E91B6FCE1D66', 'FA59D71B-8085-40EE-9B79-04036C035077', '261C491D-264A-4794-A2BC-E53693CABC97', 'DAE24021-D7B4-4250-B033-F601B3B93542', '2025-06-10', '2025-06-12', '2025-06-09', 2, 7200, 'Confirmed');
+
+
+
+
+INSERT INTO [Tourist_Guide_Database].[dbo].[Flight] (
+    [ID],
+    [DepartingDate],
+    [ReturningDate],
+    [DepartingTime],
+    [ReturningTime],
+    [DepartingCountry],
+    [DepartingCity],
+    [CombinedDepLocation],
+    [CombinedDestination],
+    [DestinationCountry],
+    [DestinationCity],
+    [ReturnDepartingTime],
+    [ReturnArrivingTime],
+    [Type],
+    [Price],
+    [image],
+    [Name]
+)
+VALUES
+('55519DE1-1A1E-4D25-83D3-0DB50FCF60D5', '2025-09-10 07:30:00', '1900-01-01 00:00:00', '07:30 AM', '10:30 AM', 'India', 'Jaipur', 'Jaipur Intl', 'Indira Gandhi Intl', 'India', 'Delhi', 'N/A', 'N/A', 'One Way', 2500, 'flight8.jpg', 'Indigo 6E-101'),
+('731CFEE3-0508-4108-8C43-1019D8C084DE', '2025-07-10 14:30:00', '2025-07-20 16:00:00', '02:30 PM', '04:00 PM', 'India', 'Mumbai', 'Mumbai T2', 'Changi Airport', 'Singapore', 'Singapore', '01:00 PM', '07:00 PM', 'Round Trip', 47000, 'flight2.jpg', 'Air India AI-301'),
+('93F45D59-588B-4510-AEB0-28A01DE6A92D', '2025-07-10 14:30:00', '2025-07-20 16:00:00', '02:30 PM', '04:00 PM', 'India', 'Mumbai', 'Mumbai T2', 'Changi Airport', 'Singapore', 'Singapore', '01:00 PM', '07:00 PM', 'Round Trip', 47000, 'flight2.jpg', 'Air India AI-301'),
+('920175AE-5791-4EB1-8C74-33A18CADC365', '2025-08-05 09:00:00', '1900-01-01 00:00:00', '09:00 AM', '12:00 PM', 'India', 'Bangalore', 'Kempegowda Intl', 'Heathrow Airport', 'UK', 'London', 'N/A', 'N/A', 'One Way', 62000, 'flight3.jpg', 'Vistara UK-811'),
+('A6904506-3884-499F-9E9D-4321E82574F6', '2025-06-22 03:15:00', '1900-01-01 00:00:00', '03:15 AM', '06:00 AM', 'India', 'Lucknow', 'Amausi Airport', 'Chandigarh Airport', 'India', 'Chandigarh', 'N/A', 'N/A', 'One Way', 2100, 'flight10.jpg', 'Go First G8-705'),
+('B49066C2-1603-47FD-87E3-65F3B6AB165D', '2025-08-15 05:00:00', '2025-08-20 11:30:00', '05:00 AM', '11:30 AM', 'India', 'Ahmedabad', 'SVPI Airport', 'Doha Airport', 'Qatar', 'Doha', '09:00 AM', '03:00 PM', 'Round Trip', 35000, 'flight7.jpg', 'Qatar Airways QR-533'),
+('7A47C0F1-42FC-4C4C-99F2-6D2EE71D2FF1', '2025-09-20 02:00:00', '2025-09-25 11:00:00', '02:00 AM', '11:00 AM', 'India', 'Kolkata', 'NSCBI Airport', 'Bangkok Intl', 'Thailand', 'Bangkok', '06:00 AM', '01:00 PM', 'Round Trip', 32000, 'flight9.jpg', 'Thai Airways TG-314'),
+('FC26A21A-F784-4465-B2FE-7C65EF6AEFFE', '2025-07-01 08:15:00', '2025-07-15 09:45:00', '08:15 AM', '09:45 AM', 'India', 'Chennai', 'Chennai Intl', 'Kuala Lumpur Intl', 'Malaysia', 'Kuala Lumpur', '07:15 AM', '11:00 AM', 'Round Trip', 42000, 'flight5.jpg', 'AirAsia AK-123'),
+('B4F6E188-8ABF-46A7-B189-9B24220CAA6A', '2025-09-20 02:00:00', '2025-09-25 11:00:00', '02:00 AM', '11:00 AM', 'India', 'Kolkata', 'NSCBI Airport', 'Bangkok Intl', 'Thailand', 'Bangkok', '06:00 AM', '01:00 PM', 'Round Trip', 32000, 'flight9.jpg', 'Thai Airways TG-314'),
+('8B5E4B4D-BA52-4492-8ECB-9CAAA6CA9302', '2025-06-25 06:45:00', '1900-01-01 00:00:00', '06:45 AM', '11:00 AM', 'India', 'Hyderabad', 'RGIA', 'Dubai Intl', 'UAE', 'Dubai', 'N/A', 'N/A', 'One Way', 38000, 'flight4.jpg', 'Emirates EK-527'),
+('367DEF1E-2EDD-4025-B140-A43A7372E5DB', '2025-06-20 10:00:00', '2025-06-30 18:00:00', '10:00 AM', '06:00 PM', 'India', 'Delhi', 'Delhi IGI Airport', 'JFK Airport', 'USA', 'New York', '04:00 PM', '07:30 PM', 'Round Trip', 55000, 'flight1.jpg', 'Indigo 6E-215'),
+('CCC477F2-DDF0-4D75-80A2-AE709F15F1B8', '2025-07-18 11:00:00', '1900-01-01 00:00:00', '11:00 AM', '01:00 PM', 'India', 'Pune', 'Pune Airport', 'Goa Intl', 'India', 'Goa', 'N/A', 'N/A', 'One Way', 5500, 'flight6.jpg', 'SpiceJet SG-123'),
+('EE3AD47F-4928-4B6B-AB69-D456EF931C66', '2025-07-01 08:15:00', '2025-07-15 09:45:00', '08:15 AM', '09:45 AM', 'India', 'Chennai', 'Chennai Intl', 'Kuala Lumpur Intl', 'Malaysia', 'Kuala Lumpur', '07:15 AM', '11:00 AM', 'Round Trip', 42000, 'flight5.jpg', 'AirAsia AK-123'),
+('14ED0C7F-D713-499E-B935-E30705328E8F', '2025-08-15 05:00:00', '2025-08-20 11:30:00', '05:00 AM', '11:30 AM', 'India', 'Ahmedabad', 'SVPI Airport', 'Doha Airport', 'Qatar', 'Doha', '09:00 AM', '03:00 PM', 'Round Trip', 35000, 'flight7.jpg', 'Qatar Airways QR-533'),
+('C099A71C-5BF5-467F-A6CF-E6784069BB71', '2025-06-20 10:00:00', '2025-06-30 18:00:00', '10:00 AM', '06:00 PM', 'India', 'Delhi', 'Delhi IGI Airport', 'JFK Airport', 'USA', 'New York', '04:00 PM', '07:30 PM', 'Round Trip', 55000, 'flight1.jpg', 'Indigo 6E-215');
+
+
+
+
+
+INSERT INTO [Tourist_Guide_Database].[dbo].[Hotel] (
+    [ID],
+    [Desc],
+    [Address],
+    [Country],
+    [City],
+    [Price],
+    [Package],
+    [People],
+    [Rooms],
+    [image],
+    [Name]
+)
+VALUES
+('51642C31-DCE7-4968-8B1A-386E2435839E', 'Eco-friendly jungle resort.', 'Periyar Road', 'India', 'Kerala', 6200, 'Eco', 2, '1 Cottage', 'hotel7.jpg', 'Nature Nest'),
+('80458B71-39D4-4F00-86FA-47E210C008EE', 'Comfortable business stay with Wi-Fi and breakfast.', 'Bandra West', 'India', 'Mumbai', 4500, 'Business', 1, '1 Standard', 'hotel3.jpg', 'Hotel Midtown'),
+('31CEEB4F-1CD0-4D75-B043-643FAAF0C975', '4-star hotel in heart of Dubai with city view.', 'Sheikh Zayed Rd', 'UAE', 'Dubai', 12000, 'Gold', 2, '1 Suite', 'hotel2.jpg', 'Dubai Central'),
+('D4505BB8-601F-4987-A28C-90843B6FFC20', 'Mountain view resort with activities.', 'MG Marg', 'India', 'Gangtok', 5500, 'Adventure', 3, '1 Family Room', 'hotel4.jpg', 'Himalayan Retreat'),
+('BD849B8B-1DC3-43D2-8258-9949AD043936', 'Budget hotel near railway station.', 'Ahmedabad Railway Station', 'India', 'Ahmedabad', 1800, 'Budget', 1, '1 Standard', 'hotel8.jpg', 'Smart Lodge'),
+('7E5C7C17-062C-40D2-9548-9E7EE7DA6929', 'Luxury beach resort with all modern amenities.', 'Goa Beach Road', 'India', 'Goa', 7500, 'Premium', 2, '1 Deluxe', 'hotel1.jpg', 'Goa Paradise'),
+('4B86C4F9-907D-4CD3-BEEB-ACEA3C5088DE', 'Luxury stay with airport shuttle.', 'Marina Bay', 'Singapore', 'Singapore', 15000, 'Luxury', 2, '1 Suite', 'hotel10.jpg', 'Marina Luxury'),
+('71ABADB4-539A-4C91-99EA-C5D6E1CB4843', 'Heritage stay in royal palace.', 'Pink City Road', 'India', 'Jaipur', 7200, 'Royal', 4, '2 Deluxe', 'hotel9.jpg', 'Royal Heritage'),
+('5F06AA72-C200-4F75-89DC-DF9D4A2A88D5', 'Modern hotel with rooftop restaurant.', 'Sector 18, Noida', 'India', 'Noida', 3900, 'Corporate', 2, '1 Twin', 'hotel5.jpg', 'Urban Stay'),
+('8EF0EADC-A05B-471D-941A-F53D60E893B0', 'Romantic getaway spot with private pool.', 'Ubud Main Street', 'Indonesia', 'Bali', 8800, 'Honeymoon', 2, '1 Pool Villa', 'hotel6.jpg', 'Bali Bliss');
+
+
+
+
+INSERT INTO [Tourist_Guide_Database].[dbo].[restaurant] (
+    [ID],
+    [Desc],
+    [Address],
+    [Country],
+    [City],
+    [PhoneNumber],
+    [Meals],
+    [image],
+    [Name]
+)
+VALUES
+('3BADAF1A-2CF4-440E-B194-6B47760E196A', 'Rajasthani cultural dining', 'Royal Fort Road', 'India', 'Jaipur', '9845678901', 'Dal Baati', 'rajasthani.png', 'Rajasthani Rasoi'),
+('3C9E4116-40AD-4694-A245-8B40B0AA4538', 'Seafood specialties with a beach view', '123 Ocean Drive', 'India', 'Goa', '9876543210', 'Seafood', 'seafood.png', 'Ocean Bites'),
+('4C9590CB-E5D9-4F52-8325-A6A5310C6F26', 'Authentic South Indian dishes', '56 Temple Road', 'India', 'Chennai', '9887766554', 'Dosa, Idli', 'southindian.png', 'Southern Spice'),
+('A54D3F89-0824-4E74-81F3-B33F4A81877E', 'Fast food burgers and fries', 'Mall Road', 'India', 'Bangalore', '9822109876', 'Burgers, Fries', 'fastfood.png', 'Burger Binge'),
+('2E87D1EA-C92E-41D2-B1EB-B5F30F4C90B9', 'Modern fusion cuisine', '10 Metro Plaza', 'India', 'Mumbai', '9811122233', 'Fusion', 'fusion.png', 'Urban Fork'),
+('4E986126-07B6-47C5-8EFB-B7B858228E3E', 'Fine dining Italian cuisine', '12 Rome Lane', 'India', 'Delhi', '9899988877', 'Pasta, Pizza', 'italian.png', 'La Piazza'),
+('303264F9-7696-4604-AA99-BDF90B7AF152', 'Traditional Gujarati food', '45 Patel Street', 'India', 'Ahmedabad', '9823456789', 'Gujarati Thali', 'gujarati.png', 'Gujju Rasoi'),
+('2BCBB5E4-06BF-4D87-B722-CD0D410CEA59', 'Healthy organic meals', '21 Green Farm', 'India', 'Pune', '9876712345', 'Organic Meals', 'organic.png', 'Nature’s Plate'),
+('F020FF47-269B-4DD8-AFED-D9918B6DF777', 'Chinese street style food', '88 Dragon Street', 'India', 'Kolkata', '9833344455', 'Noodles, Manchurian', 'chinese.png', 'Dragon Bowl'),
+('327B135A-2FFA-4F66-8025-E00BF9D3EF83', 'Punjabi Dhaba style food', 'National Highway 8', 'India', 'Ludhiana', '9800011122', 'Tandoori, Lassi', 'punjabi.png', 'Pind Express');
+
+
+
+INSERT INTO [dbo].[FlightBooking] (
+    [FlightBookingID],
+    [userID],
+    [FlightID],
+    [BookingDate],
+    [Adults],
+    [kids],
+    [Price]
+)
+VALUES
+(NEWID(), 'F5B87456-C8EC-4B75-BAE1-16591945DB45', '55519DE1-1A1E-4D25-83D3-0DB50FCF60D5', '2025-06-16', 2, 0, 24000),
+(NEWID(), 'A6BEE576-7B8D-437D-AFE6-261F81DD1404', '731CFEE3-0508-4108-8C43-1019D8C084DE', '2025-06-16', 1, 1, 32000),
+(NEWID(), 'DE2059FF-7984-437E-80FD-2AFBC26F0C8D', '93F45D59-588B-4510-AEB0-28A01DE6A92D', '2025-06-17', 2, 2, 45000),
+(NEWID(), 'E609FEFB-ACDD-49BF-8D81-43C3CFA46EB9', '920175AE-5791-4EB1-8C74-33A18CADC365', '2025-06-17', 2, 0, 40000),
+(NEWID(), '35ACD176-1730-41DB-A5E1-5FDAFDA25CB6', 'A6904506-3884-499F-9E9D-4321E82574F6', '2025-06-15', 1, 0, 21000),
+(NEWID(), '9C03D5FE-113E-416C-BCFE-66C6ADD3C27D', 'B49066C2-1603-47FD-87E3-65F3B6AB165D', '2025-06-14', 2, 1, 37000),
+(NEWID(), 'B734B598-573E-499A-8775-71B5599789FC', '7A47C0F1-42FC-4C4C-99F2-6D2EE71D2FF1', '2025-06-13', 1, 1, 22000),
+(NEWID(), '03F66196-01CE-460F-A0DA-894B27EA7FCB', 'FC26A21A-F784-4465-B2FE-7C65EF6AEFFE', '2025-06-12', 2, 0, 42000),
+(NEWID(), 'FDBE2E06-D2B6-4641-9697-C32F4C3E962D', 'B4F6E188-8ABF-46A7-B189-9B24220CAA6A', '2025-06-13', 1, 0, 5100),
+(NEWID(), '77B9D576-FFC0-4037-BD14-E91B6FCE1D66', '8B5E4B4D-BA52-4492-8ECB-9CAAA6CA9302', '2025-06-14', 2, 2, 60000),
+(NEWID(), 'F5B87456-C8EC-4B75-BAE1-16591945DB45', '367DEF1E-2EDD-4025-B140-A43A7372E5DB', '2025-06-13', 2, 1, 55000),
+(NEWID(), 'A6BEE576-7B8D-437D-AFE6-261F81DD1404', 'CCC477F2-DDF0-4D75-80A2-AE709F15F1B8', '2025-06-14', 1, 0, 5500),
+(NEWID(), 'DE2059FF-7984-437E-80FD-2AFBC26F0C8D', 'EE3AD47F-4928-4B6B-AB69-D456EF931C66', '2025-06-15', 1, 1, 34000),
+(NEWID(), 'E609FEFB-ACDD-49BF-8D81-43C3CFA46EB9', '14ED0C7F-D713-499E-B935-E30705328E8F', '2025-06-12', 1, 0, 7500),
+(NEWID(), '35ACD176-1730-41DB-A5E1-5FDAFDA25CB6', 'C099A71C-5BF5-467F-A6CF-E6784069BB71', '2025-06-13', 2, 1, 45000);
+
+
+
+
+INSERT INTO [dbo].[RestaurantBooking] (
+    [RestaurantBookingId],
+    [RestaurantID],
+    [userID],
+    [MealTime],
+    [TotalPeople],
+    [BookingDate],
+    [MealDate],
+    [status]
+)
+VALUES
+(NEWID(), '3BADAF1A-2CF4-440E-B194-6B47760E196A', 'F5B87456-C8EC-4B75-BAE1-16591945DB45', 'Lunch', 2, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed'),
+(NEWID(), '3C9E4116-40AD-4694-A245-8B40B0AA4538', 'A6BEE576-7B8D-437D-AFE6-261F81DD1404', 'Dinner', 3, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed'),
+(NEWID(), '4C9590CB-E5D9-4F52-8325-A6A5310C6F26', 'DE2059FF-7984-437E-80FD-2AFBC26F0C8D', 'Lunch', 1, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed'),
+(NEWID(), 'A54D3F89-0824-4E74-81F3-B33F4A81877E', 'E609FEFB-ACDD-49BF-8D81-43C3CFA46EB9', 'Dinner', 4, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed'),
+(NEWID(), '2E87D1EA-C92E-41D2-B1EB-B5F30F4C90B9', '35ACD176-1730-41DB-A5E1-5FDAFDA25CB6', 'Lunch', 2, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed'),
+(NEWID(), '4E986126-07B6-47C5-8EFB-B7B858228E3E', '9C03D5FE-113E-416C-BCFE-66C6ADD3C27D', 'Dinner', 3, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed'),
+(NEWID(), '303264F9-7696-4604-AA99-BDF90B7AF152', 'B734B598-573E-499A-8775-71B5599789FC', 'Lunch', 1, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed'),
+(NEWID(), '2BCBB5E4-06BF-4D87-B722-CD0D410CEA59', '03F66196-01CE-460F-A0DA-894B27EA7FCB', 'Dinner', 2, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed'),
+(NEWID(), 'F020FF47-269B-4DD8-AFED-D9918B6DF777', 'FDBE2E06-D2B6-4641-9697-C32F4C3E962D', 'Lunch', 4, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed'),
+(NEWID(), '327B135A-2FFA-4F66-8025-E00BF9D3EF83', '77B9D576-FFC0-4037-BD14-E91B6FCE1D66', 'Dinner', 2, GETDATE(), DATEADD(DAY, 1, GETDATE()), 'Confirmed');
+
+
+
+
+INSERT INTO [dbo].[HotelBooking] (
+    [HotelBookingId],
+    [userID],
+    [HotelID],
+    [BookingDate],
+    [StartingFromDate],
+    [EndingDate],
+    [Price]
+)
+VALUES
+(NEWID(), 'F5B87456-C8EC-4B75-BAE1-16591945DB45', '51642C31-DCE7-4968-8B1A-386E2435839E', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 4500),
+(NEWID(), 'A6BEE576-7B8D-437D-AFE6-261F81DD1404', '80458B71-39D4-4F00-86FA-47E210C008EE', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 4800),
+(NEWID(), 'DE2059FF-7984-437E-80FD-2AFBC26F0C8D', '31CEEB4F-1CD0-4D75-B043-643FAAF0C975', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 4200),
+(NEWID(), 'E609FEFB-ACDD-49BF-8D81-43C3CFA46EB9', 'D4505BB8-601F-4987-A28C-90843B6FFC20', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 3900),
+(NEWID(), '35ACD176-1730-41DB-A5E1-5FDAFDA25CB6', 'BD849B8B-1DC3-43D2-8258-9949AD043936', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 5000),
+(NEWID(), '9C03D5FE-113E-416C-BCFE-66C6ADD3C27D', '7E5C7C17-062C-40D2-9548-9E7EE7DA6929', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 4300),
+(NEWID(), 'B734B598-573E-499A-8775-71B5599789FC', '4B86C4F9-907D-4CD3-BEEB-ACEA3C5088DE', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 4700),
+(NEWID(), '03F66196-01CE-460F-A0DA-894B27EA7FCB', '71ABADB4-539A-4C91-99EA-C5D6E1CB4843', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 3600),
+(NEWID(), 'FDBE2E06-D2B6-4641-9697-C32F4C3E962D', '5F06AA72-C200-4F75-89DC-DF9D4A2A88D5', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 5200),
+(NEWID(), '77B9D576-FFC0-4037-BD14-E91B6FCE1D66', '8EF0EADC-A05B-471D-941A-F53D60E893B0', GETDATE(), DATEADD(DAY, 1, GETDATE()), DATEADD(DAY, 3, GETDATE()), 4400);
+
+
