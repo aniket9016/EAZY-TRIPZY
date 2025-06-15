@@ -185,16 +185,16 @@ INSERT INTO [Tourist_Guide_Database].[dbo].[Hotel] (
     [Name]
 )
 VALUES
-('51642C31-DCE7-4968-8B1A-386E2435839E', 'Eco-friendly jungle resort.', 'Periyar Road', 'India', 'Kerala', 6200, 'Eco', 2, '1 Cottage', 'hotel7.jpg', 'Nature Nest'),
-('80458B71-39D4-4F00-86FA-47E210C008EE', 'Comfortable business stay with Wi-Fi and breakfast.', 'Bandra West', 'India', 'Mumbai', 4500, 'Business', 1, '1 Standard', 'hotel3.jpg', 'Hotel Midtown'),
-('31CEEB4F-1CD0-4D75-B043-643FAAF0C975', '4-star hotel in heart of Dubai with city view.', 'Sheikh Zayed Rd', 'UAE', 'Dubai', 12000, 'Gold', 2, '1 Suite', 'hotel2.jpg', 'Dubai Central'),
-('D4505BB8-601F-4987-A28C-90843B6FFC20', 'Mountain view resort with activities.', 'MG Marg', 'India', 'Gangtok', 5500, 'Adventure', 3, '1 Family Room', 'hotel4.jpg', 'Himalayan Retreat'),
-('BD849B8B-1DC3-43D2-8258-9949AD043936', 'Budget hotel near railway station.', 'Ahmedabad Railway Station', 'India', 'Ahmedabad', 1800, 'Budget', 1, '1 Standard', 'hotel8.jpg', 'Smart Lodge'),
-('7E5C7C17-062C-40D2-9548-9E7EE7DA6929', 'Luxury beach resort with all modern amenities.', 'Goa Beach Road', 'India', 'Goa', 7500, 'Premium', 2, '1 Deluxe', 'hotel1.jpg', 'Goa Paradise'),
-('4B86C4F9-907D-4CD3-BEEB-ACEA3C5088DE', 'Luxury stay with airport shuttle.', 'Marina Bay', 'Singapore', 'Singapore', 15000, 'Luxury', 2, '1 Suite', 'hotel10.jpg', 'Marina Luxury'),
-('71ABADB4-539A-4C91-99EA-C5D6E1CB4843', 'Heritage stay in royal palace.', 'Pink City Road', 'India', 'Jaipur', 7200, 'Royal', 4, '2 Deluxe', 'hotel9.jpg', 'Royal Heritage'),
-('5F06AA72-C200-4F75-89DC-DF9D4A2A88D5', 'Modern hotel with rooftop restaurant.', 'Sector 18, Noida', 'India', 'Noida', 3900, 'Corporate', 2, '1 Twin', 'hotel5.jpg', 'Urban Stay'),
-('8EF0EADC-A05B-471D-941A-F53D60E893B0', 'Romantic getaway spot with private pool.', 'Ubud Main Street', 'Indonesia', 'Bali', 8800, 'Honeymoon', 2, '1 Pool Villa', 'hotel6.jpg', 'Bali Bliss');
+('51642C31-DCE7-4968-8B1A-386E2435839E', 'Eco-friendly jungle resort.', 'Periyar Road', 'India', 'Kerala', 6200, 'Eco', 2, '1 Cottage', 'Hotel1.jpg', 'Nature Nest'),
+('80458B71-39D4-4F00-86FA-47E210C008EE', 'Comfortable business stay with Wi-Fi and breakfast.', 'Bandra West', 'India', 'Mumbai', 4500, 'Business', 1, '1 Standard', 'Hotel2.jpg', 'Hotel Midtown'),
+('31CEEB4F-1CD0-4D75-B043-643FAAF0C975', '4-star hotel in heart of Dubai with city view.', 'Sheikh Zayed Rd', 'UAE', 'Dubai', 12000, 'Gold', 2, '1 Suite', 'Hotel3.jpg', 'Dubai Central'),
+('D4505BB8-601F-4987-A28C-90843B6FFC20', 'Mountain view resort with activities.', 'MG Marg', 'India', 'Gangtok', 5500, 'Adventure', 3, '1 Family Room', 'Hotel4.jpg', 'Himalayan Retreat'),
+('BD849B8B-1DC3-43D2-8258-9949AD043936', 'Budget hotel near railway station.', 'Ahmedabad Railway Station', 'India', 'Ahmedabad', 1800, 'Budget', 1, '1 Standard', 'Hotel5.jpg', 'Smart Lodge'),
+('7E5C7C17-062C-40D2-9548-9E7EE7DA6929', 'Luxury beach resort with all modern amenities.', 'Goa Beach Road', 'India', 'Goa', 7500, 'Premium', 2, '1 Deluxe', 'Hotel6.jpg', 'Goa Paradise'),
+('4B86C4F9-907D-4CD3-BEEB-ACEA3C5088DE', 'Luxury stay with airport shuttle.', 'Marina Bay', 'Singapore', 'Singapore', 15000, 'Luxury', 2, '1 Suite', 'Hotel7.jpg', 'Marina Luxury'),
+('71ABADB4-539A-4C91-99EA-C5D6E1CB4843', 'Heritage stay in royal palace.', 'Pink City Road', 'India', 'Jaipur', 7200, 'Royal', 4, '2 Deluxe', 'Hotel8.jpg', 'Royal Heritage'),
+('5F06AA72-C200-4F75-89DC-DF9D4A2A88D5', 'Modern hotel with rooftop restaurant.', 'Sector 18, Noida', 'India', 'Noida', 3900, 'Corporate', 2, '1 Twin', 'Hotel9.jpg', 'Urban Stay'),
+('8EF0EADC-A05B-471D-941A-F53D60E893B0', 'Romantic getaway spot with private pool.', 'Ubud Main Street', 'Indonesia', 'Bali', 8800, 'Honeymoon', 2, '1 Pool Villa', 'Hotel10.jpg', 'Bali Bliss');
 
 
 
@@ -211,16 +211,16 @@ INSERT INTO [Tourist_Guide_Database].[dbo].[restaurant] (
     [Name]
 )
 VALUES
-('3BADAF1A-2CF4-440E-B194-6B47760E196A', 'Rajasthani cultural dining', 'Royal Fort Road', 'India', 'Jaipur', '9845678901', 'Dal Baati', 'rajasthani.png', 'Rajasthani Rasoi'),
-('3C9E4116-40AD-4694-A245-8B40B0AA4538', 'Seafood specialties with a beach view', '123 Ocean Drive', 'India', 'Goa', '9876543210', 'Seafood', 'seafood.png', 'Ocean Bites'),
-('4C9590CB-E5D9-4F52-8325-A6A5310C6F26', 'Authentic South Indian dishes', '56 Temple Road', 'India', 'Chennai', '9887766554', 'Dosa, Idli', 'southindian.png', 'Southern Spice'),
-('A54D3F89-0824-4E74-81F3-B33F4A81877E', 'Fast food burgers and fries', 'Mall Road', 'India', 'Bangalore', '9822109876', 'Burgers, Fries', 'fastfood.png', 'Burger Binge'),
-('2E87D1EA-C92E-41D2-B1EB-B5F30F4C90B9', 'Modern fusion cuisine', '10 Metro Plaza', 'India', 'Mumbai', '9811122233', 'Fusion', 'fusion.png', 'Urban Fork'),
-('4E986126-07B6-47C5-8EFB-B7B858228E3E', 'Fine dining Italian cuisine', '12 Rome Lane', 'India', 'Delhi', '9899988877', 'Pasta, Pizza', 'italian.png', 'La Piazza'),
-('303264F9-7696-4604-AA99-BDF90B7AF152', 'Traditional Gujarati food', '45 Patel Street', 'India', 'Ahmedabad', '9823456789', 'Gujarati Thali', 'gujarati.png', 'Gujju Rasoi'),
-('2BCBB5E4-06BF-4D87-B722-CD0D410CEA59', 'Healthy organic meals', '21 Green Farm', 'India', 'Pune', '9876712345', 'Organic Meals', 'organic.png', 'Nature’s Plate'),
-('F020FF47-269B-4DD8-AFED-D9918B6DF777', 'Chinese street style food', '88 Dragon Street', 'India', 'Kolkata', '9833344455', 'Noodles, Manchurian', 'chinese.png', 'Dragon Bowl'),
-('327B135A-2FFA-4F66-8025-E00BF9D3EF83', 'Punjabi Dhaba style food', 'National Highway 8', 'India', 'Ludhiana', '9800011122', 'Tandoori, Lassi', 'punjabi.png', 'Pind Express');
+('3BADAF1A-2CF4-440E-B194-6B47760E196A', 'Rajasthani cultural dining', 'Royal Fort Road', 'India', 'Jaipur', '9845678901', 'Dal Baati', 'Restaurant1.jpg', 'Rajasthani Rasoi'),
+('3C9E4116-40AD-4694-A245-8B40B0AA4538', 'Seafood specialties with a beach view', '123 Ocean Drive', 'India', 'Goa', '9876543210', 'Seafood', 'Restaurant2.jpg', 'Ocean Bites'),
+('4C9590CB-E5D9-4F52-8325-A6A5310C6F26', 'Authentic South Indian dishes', '56 Temple Road', 'India', 'Chennai', '9887766554', 'Dosa, Idli', 'Restaurant3.jpg', 'Southern Spice'),
+('A54D3F89-0824-4E74-81F3-B33F4A81877E', 'Fast food burgers and fries', 'Mall Road', 'India', 'Bangalore', '9822109876', 'Burgers, Fries', 'Restaurant4.jpg', 'Burger Binge'),
+('2E87D1EA-C92E-41D2-B1EB-B5F30F4C90B9', 'Modern fusion cuisine', '10 Metro Plaza', 'India', 'Mumbai', '9811122233', 'Fusion', 'Restaurant5.jpg', 'Urban Fork'),
+('4E986126-07B6-47C5-8EFB-B7B858228E3E', 'Fine dining Italian cuisine', '12 Rome Lane', 'India', 'Delhi', '9899988877', 'Pasta, Pizza', 'Restaurant6.jpg', 'La Piazza'),
+('303264F9-7696-4604-AA99-BDF90B7AF152', 'Traditional Gujarati food', '45 Patel Street', 'India', 'Ahmedabad', '9823456789', 'Gujarati Thali', 'Restaurant7.jpg', 'Gujju Rasoi'),
+('2BCBB5E4-06BF-4D87-B722-CD0D410CEA59', 'Healthy organic meals', '21 Green Farm', 'India', 'Pune', '9876712345', 'Organic Meals', 'Restaurant8.jpg', 'Nature’s Plate'),
+('F020FF47-269B-4DD8-AFED-D9918B6DF777', 'Chinese street style food', '88 Dragon Street', 'India', 'Kolkata', '9833344455', 'Noodles, Manchurian', 'Restaurant9.jpg', 'Dragon Bowl'),
+('327B135A-2FFA-4F66-8025-E00BF9D3EF83', 'Punjabi Dhaba style food', 'National Highway 8', 'India', 'Ludhiana', '9800011122', 'Tandoori, Lassi', 'Restaurant10.jpg', 'Pind Express');
 
 
 

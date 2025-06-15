@@ -21,7 +21,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import HotelIcon from "@mui/icons-material/Hotel";
-import RestaurantIcon from "@mui/icons-material/Restaurant"; // 🍽️ Icon
+import RestaurantIcon from "@mui/icons-material/Restaurant";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
@@ -104,6 +104,14 @@ export default function Layout() {
             <BookOnlineIcon />
           </ListItemIcon>
           <ListItemText primary="Car Bookings" />
+        </ListItemButton>
+
+        {/* ✅ Added Restaurant Bookings navigation */}
+        <ListItemButton onClick={() => navigate("/restaurantbookings")}>
+          <ListItemIcon sx={{ color: "#fff" }}>
+            <BookOnlineIcon />
+          </ListItemIcon>
+          <ListItemText primary="Restaurant Bookings" />
         </ListItemButton>
       </List>
     </Box>

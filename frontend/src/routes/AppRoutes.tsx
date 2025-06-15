@@ -7,7 +7,8 @@ import Cars from "../pages/Cars/Cars";
 import CarBookings from "../pages/Cars/CarBookings";
 import Flights from "../pages/Flights/Flights";
 import Hotels from "../pages/Hotels/Hotels";
-import Restaurants from "../pages/Restaurant/Restaurant"; // ✅ Import added
+import Restaurants from "../pages/Restaurant/Restaurant";
+import RestaurantBookings from "../pages/Restaurant/RestaurantBooking"; 
 import NotFound from "../pages/NotFound";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Layout from "../components/Layout";
@@ -28,7 +29,8 @@ export default function AppRoutes() {
           <Route path="/carbookings" element={<CarBookings />} />
           <Route path="/flights" element={<Flights />} />
           <Route path="/hotels" element={<Hotels />} />
-          <Route path="/restaurants" element={<Restaurants />} /> {/* ✅ Added */}
+          <Route path="/restaurants" element={<Restaurants />} />
+          <Route path="/restaurantbookings" element={<RestaurantBookings />} /> 
           <Route path="*" element={<NotFound />} />
         </Route>
       </Route>
