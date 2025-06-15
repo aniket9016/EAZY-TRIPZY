@@ -55,7 +55,7 @@ namespace Web.Controllers
 
         [Route("AddHotel")]
         [HttpPost]
-        public async Task<IActionResult> Add(HotelInsertViewModel hotel)
+        public async Task<IActionResult> Add([FromForm] HotelInsertViewModel hotel)
         {
             try
             {
@@ -75,14 +75,20 @@ namespace Web.Controllers
 
         [Route("EditHotel")]
         [HttpPatch]
-        public async Task<IActionResult> update(HotelUpdateViewModel hotelUpdate)
+        public async Task<IActionResult> Update([FromForm] HotelUpdateViewModel hotelUpdate)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var img = await UploadImage(hotelUpdate.Image, hotelUpdate.Name);
-                    await _hotelService.Update(hotelUpdate, img);
+                    string imgName = hotelUpdate.ExistingImage;
+
+                    if (hotelUpdate.Image != null && hotelUpdate.Image.Length > 0)
+                    {
+                        imgName = await UploadImage(hotelUpdate.Image, hotelUpdate.Name);
+                    }
+
+                    await _hotelService.Update(hotelUpdate, imgName);
                     return Ok();
                 }
                 return BadRequest("Validation failed.");
@@ -112,41 +118,39 @@ namespace Web.Controllers
             }
         }
 
-        private async Task<string> UploadImage(IFormFile images, string id)
+        private async Task<string> UploadImage(IFormFile image, string name)
         {
             try
             {
-                string file;
-                string ContentPath = this._webHostEnvironment.ContentRootPath;
-                var extension = "." + images.FileName.Split('.')[^1];
+                if (image == null || image.Length == 0)
+                    return "";
 
-                if (extension == ".png" || extension == ".jpg" || extension == ".jpeg")
+                string contentPath = _webHostEnvironment.ContentRootPath;
+                string extension = Path.GetExtension(image.FileName).ToLower();
+
+                if (extension != ".png" && extension != ".jpg" && extension != ".jpeg")
+                    throw new Exception("Unsupported image format.");
+
+                string cleanedName = Regex.Replace(name.ToLower(), @"[^0-9a-zA-Z]+", "");
+                string fileName = $"{cleanedName}-{Guid.NewGuid()}{extension}";
+                string folderPath = Path.Combine(contentPath, "Images", "Hotel");
+
+                if (!Directory.Exists(folderPath))
+                    Directory.CreateDirectory(folderPath);
+
+                string filePath = Path.Combine(folderPath, fileName);
+
+                using (var stream = new FileStream(filePath, FileMode.Create))
                 {
-                    file = id.ToLower() + "-" + extension;
-                    string newFileName = Regex.Replace(file, @"[^0-9a-zA-Z.]+", "");
-                    var paths = Path.Combine(ContentPath, "Images\\Hotel");
-
-                    if (!Directory.Exists(paths))
-                    {
-                        Directory.CreateDirectory(paths);
-                    }
-
-                    var path = Path.Combine(paths, newFileName);
-                    using (var stream = new FileStream(path, FileMode.Create))
-                    {
-                        await images.CopyToAsync(stream);
-                    }
-
-                    return newFileName;
+                    await image.CopyToAsync(stream);
                 }
 
-                return "";
+                return fileName;
             }
             catch (Exception ex)
             {
                 throw new Exception($"Image upload failed: {ex.Message}");
             }
         }
-
     }
 }

@@ -20,6 +20,7 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LogoutIcon from "@mui/icons-material/Logout";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import HotelIcon from "@mui/icons-material/Hotel"; // New import
 import { Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuthStore } from "../store/authStore";
@@ -81,6 +82,13 @@ export default function Layout() {
             <FlightTakeoffIcon />
           </ListItemIcon>
           <ListItemText primary="Flights" />
+        </ListItemButton>
+
+        <ListItemButton onClick={() => navigate("/hotels")}>
+          <ListItemIcon sx={{ color: "#fff" }}>
+            <HotelIcon />
+          </ListItemIcon>
+          <ListItemText primary="Hotels" />
         </ListItemButton>
 
         <ListItemButton onClick={() => navigate("/carbookings")}>
