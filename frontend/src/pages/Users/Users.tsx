@@ -32,18 +32,16 @@ export default function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [open, setOpen] = useState(false);
   const [editUser, setEditUser] = useState<User | null>(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [dob, setDob] = useState("");
+  const [form, setForm] = useState({ name: "", email: "", password: "", dob: "" });
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
   const [userToDelete, setUserToDelete] = useState<User | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const api = getApiClient();
+
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const api = getApiClient();
       const res = await api.get("/User/GetAllUser");
       setUsers(res.data);
     } catch (error) {
@@ -58,12 +56,17 @@ export default function Users() {
     fetchUsers();
   }, []);
 
-  const handleSave = async () => {
-    try {
-      const api = getApiClient();
-      const payload = { name, email, password, dob };
+  const openAddDialog = () => {
+    setEditUser(null);
+    setForm({ name: "", email: "", password: "", dob: "" });
+    setOpen(true);
+  };
 
-      if (editUser?.id) {
+  const handleSave = async () => {
+    const payload = { ...form };
+
+    try {
+      if (editUser) {
         await api.patch(`/User/EditUser/${editUser.id}`, { ...payload, id: editUser.id });
         toast.success("User updated successfully");
       } else {
@@ -74,9 +77,20 @@ export default function Users() {
       closeDialog();
       fetchUsers();
     } catch (error) {
-      console.error("Failed to save user:", error);
+      console.error("Save error:", error);
       toast.error("Failed to save user");
     }
+  };
+
+  const handleEdit = (user: User) => {
+    setEditUser(user);
+    setForm({
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      dob: user.dob,
+    });
+    setOpen(true);
   };
 
   const confirmDelete = (user: User) => {
@@ -87,12 +101,11 @@ export default function Users() {
   const handleDelete = async () => {
     if (!userToDelete?.id) return;
     try {
-      const api = getApiClient();
       await api.delete(`/User/RemoveUser/${userToDelete.id}`);
       toast.success("User deleted successfully");
       fetchUsers();
     } catch (error) {
-      console.error("Failed to delete user:", error);
+      console.error("Delete error:", error);
       toast.error("Failed to delete user");
     } finally {
       setConfirmDeleteOpen(false);
@@ -100,21 +113,9 @@ export default function Users() {
     }
   };
 
-  const handleEdit = (user: User) => {
-    setEditUser(user);
-    setName(user.name);
-    setEmail(user.email);
-    setPassword(user.password);
-    setDob(user.dob);
-    setOpen(true);
-  };
-
   const closeDialog = () => {
     setEditUser(null);
-    setName("");
-    setEmail("");
-    setPassword("");
-    setDob("");
+    setForm({ name: "", email: "", password: "", dob: "" });
     setOpen(false);
   };
 
@@ -155,7 +156,7 @@ export default function Users() {
         variant="contained"
         color="primary"
         startIcon={<AddCircleIcon />}
-        onClick={() => setOpen(true)}
+        onClick={openAddDialog}
         sx={{ mb: 2 }}
       >
         Add User
@@ -208,23 +209,23 @@ export default function Users() {
             label="Name"
             fullWidth
             sx={{ mt: 1, mb: 2 }}
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
           />
           <TextField
             label="Email"
             fullWidth
             sx={{ mb: 2 }}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
           />
           <TextField
             label="Password"
             type="text"
             fullWidth
             sx={{ mb: 2 }}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
           />
           <TextField
             label="Date of Birth"
@@ -232,8 +233,8 @@ export default function Users() {
             fullWidth
             sx={{ mb: 2 }}
             InputLabelProps={{ shrink: true }}
-            value={dob}
-            onChange={(e) => setDob(e.target.value)}
+            value={form.dob}
+            onChange={(e) => setForm({ ...form, dob: e.target.value })}
           />
         </DialogContent>
         <DialogActions>
