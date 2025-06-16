@@ -120,6 +120,13 @@ export default function Layout() {
           </ListItemIcon>
           <ListItemText primary="Restaurant Bookings" />
         </ListItemButton>
+
+        <ListItemButton onClick={() => navigate("/hotelBooking")}>
+          <ListItemIcon sx={{ color: "#fff" }}>
+            <BookOnlineIcon />
+          </ListItemIcon>
+          <ListItemText primary="Hotel Bookings" />
+        </ListItemButton>
       </List>
     </Box>
   );

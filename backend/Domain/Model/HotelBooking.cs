@@ -15,8 +15,11 @@ namespace Domain.Model
         public Guid HotelID { get; set; }
         public virtual Hotel hotel { get; set; }
         public DateTime BookingDate { get; set; }
-        public DateTime StartingFromDate { get; set; }
-        public DateTime EndingDate { get; set; } 
+        public DateTime Checkindate { get; set; }
+        public DateTime Checkoutdate { get; set; }
+        public string roomType { get; set; }
+        public int noofPeople { get; set; }
+        public string bookingStatus { get; set; }
         public int Price { get; set; }
     }
 }

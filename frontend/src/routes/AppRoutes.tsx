@@ -9,6 +9,7 @@ import Flights from "../pages/Flights/Flights";
 import Hotels from "../pages/Hotels/Hotels";
 import Restaurants from "../pages/Restaurant/Restaurant";
 import RestaurantBookings from "../pages/Restaurant/RestaurantBooking";
+import HotelBooking from "../pages/Hotels/HotelBooking";
 import Locations from "../pages/Locations/Locations"; 
 import NotFound from "../pages/NotFound";
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -32,6 +33,7 @@ export default function AppRoutes() {
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/restaurantbookings" element={<RestaurantBookings />} />
+          <Route path="/hotelBooking" element={<HotelBooking />} />
           <Route path="/locations" element={<Locations />} /> 
           <Route path="*" element={<NotFound />} />
         </Route>
