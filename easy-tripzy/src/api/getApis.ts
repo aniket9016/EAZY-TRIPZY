@@ -60,6 +60,11 @@ export const getHotelBookings = () => {
   return API.get("/HotelBooking/GetAllHotelBooking");
 };
 export const getHotels = () => API.get("/Hotel/GetAllHotel");
+export const getHotelById = (id: string) => {
+  return API.get('/Hotel/GetHotelByID', {
+    params: { id },
+  });
+};
 
 export const getHotelBookingById = (id: string) => {
   return API.get('/HotelBooking/GetHotelBookingByID', {

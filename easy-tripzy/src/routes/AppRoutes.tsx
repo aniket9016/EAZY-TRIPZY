@@ -4,18 +4,22 @@ import Home from "../pages/Home";
 import Layout from "../components/Layout";
 import Restaurants from "../pages/Restaurants/Restaurants";
 import RestaurantDetail from "../pages/Restaurants/RestaurantDetail";
-
+import MyBookings from "../pages/MyBookings";
+import ProtectedRoute from "../components/ProtectedRoute";
+import NotFound from "../pages/NotFound"; 
 const AppRoutes = (
   <>
-    {/* No navbar on landing */}
     <Route path="/" element={<Landing />} />
 
-    {/* Layout wraps all other routes */}
     <Route element={<Layout />}>
       <Route path="/home" element={<Home />} />
       <Route path="/restaurants" element={<Restaurants />} />
       <Route path="/restaurant-detail" element={<RestaurantDetail />} />
-      {/* Add more routes here */}
+      <Route element={<ProtectedRoute />}>
+        <Route path="/my-bookings" element={<MyBookings />} />
+      </Route>
+
+      <Route path="*" element={<NotFound />} />
     </Route>
   </>
 );
