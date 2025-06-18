@@ -3,6 +3,7 @@ using Infrastructure.ContextClass;
 using Infrastructure.Repositaries;
 using Infrastructure.Service.CustomService.CarBookings;
 using Infrastructure.Service.CustomService.Cars;
+using Infrastructure.Service.CustomService.FlightBookings;
 using Infrastructure.Service.CustomService.Flights;
 using Infrastructure.Service.CustomService.HotelBookings;
 using Infrastructure.Service.CustomService.Hotels;
@@ -65,6 +66,8 @@ builder.Services.AddTransient<ICarBookingService, CarBookingService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddTransient<IRestaurantBookingService, RestaurantBookingService>();
 builder.Services.AddTransient<IHotelBookingService, HotelBookingService>();
+builder.Services.AddTransient<IFlightBookingService, FlightBookingService>();
+
 
 var jwtKey = builder.Configuration["Jwt:Key"];
 var jwtIssuer = builder.Configuration["Jwt:Issuer"];

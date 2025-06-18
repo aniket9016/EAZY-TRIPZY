@@ -114,11 +114,11 @@ export default function Layout() {
           <ListItemText primary="Car Bookings" />
         </ListItemButton>
 
-        <ListItemButton onClick={() => navigate("/restaurantbookings")}>
+        <ListItemButton onClick={() => navigate("/flightbooking")}>
           <ListItemIcon sx={{ color: "#fff" }}>
             <BookOnlineIcon />
           </ListItemIcon>
-          <ListItemText primary="Restaurant Bookings" />
+          <ListItemText primary="Flight Bookings" />
         </ListItemButton>
 
         <ListItemButton onClick={() => navigate("/hotelBooking")}>
@@ -127,6 +127,13 @@ export default function Layout() {
           </ListItemIcon>
           <ListItemText primary="Hotel Bookings" />
         </ListItemButton>
+
+        <ListItemButton onClick={() => navigate("/restaurantbookings")}>
+          <ListItemIcon sx={{ color: "#fff" }}>
+            <BookOnlineIcon />
+          </ListItemIcon>
+          <ListItemText primary="Restaurant Bookings" />
+        </ListItemButton>
       </List>
     </Box>
   );
@@ -134,7 +141,6 @@ export default function Layout() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-
       <AppBar
         position="fixed"
         sx={{

@@ -1,5 +1,4 @@
-﻿using Azure;
-using Domain.Model;
+﻿using Domain.Model;
 using Domain.ViewModel;
 using Infrastructure.ContextClass;
 using Microsoft.AspNetCore.Http;
@@ -10,7 +9,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Response = Domain.Model.Response;
-
 
 namespace Web.Controllers
 {
@@ -56,13 +54,15 @@ namespace Web.Controllers
             _context.User.Add(user);
             await _context.SaveChangesAsync();
 
-            var token = GenerateJwtToken(user.Name, user.Email);
+            var token = GenerateJwtToken(user.Name, user.Email, user.ID);
 
             return Ok(new
             {
                 Status = 200,
                 Message = "Registration successful.",
-                Token = token
+                Token = token,
+                Name = user.Name,
+                UserID = user.ID
             });
         }
 
@@ -77,7 +77,6 @@ namespace Web.Controllers
                 });
 
             var user = _context.User
-                //.Include(u => u.Role)
                 .FirstOrDefault(u => u.Email == loginRequest.Email && u.Password == loginRequest.PasswordHash);
 
             if (user == null)
@@ -87,7 +86,7 @@ namespace Web.Controllers
                     Message = "Invalid credentials."
                 });
 
-            var token = GenerateJwtToken(user.Name, user.Email);
+            var token = GenerateJwtToken(user.Name, user.Email, user.ID);
 
             return Ok(new
             {
@@ -95,10 +94,11 @@ namespace Web.Controllers
                 Message = "Login successful.",
                 Token = token,
                 Name = user.Name,
+                UserID = user.ID
             });
         }
 
-        private string GenerateJwtToken(string name, string email)
+        private string GenerateJwtToken(string name, string email, Guid userId)
         {
             var jwtKey = _configuration["Jwt:Key"];
             var jwtIssuer = _configuration["Jwt:Issuer"];
@@ -111,6 +111,7 @@ namespace Web.Controllers
             {
                 new Claim(ClaimTypes.Name, name),
                 new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.NameIdentifier, userId.ToString())
             };
 
             var token = new JwtSecurityToken(
@@ -122,6 +123,5 @@ namespace Web.Controllers
             );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }

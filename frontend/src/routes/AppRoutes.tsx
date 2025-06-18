@@ -6,6 +6,7 @@ import Users from "../pages/Users/Users";
 import Cars from "../pages/Cars/Cars";
 import CarBookings from "../pages/Cars/CarBookings";
 import Flights from "../pages/Flights/Flights";
+import FlightBooking from "../pages/Flights/FlightBooking";
 import Hotels from "../pages/Hotels/Hotels";
 import Restaurants from "../pages/Restaurant/Restaurant";
 import RestaurantBookings from "../pages/Restaurant/RestaurantBooking";
@@ -30,6 +31,7 @@ export default function AppRoutes() {
           <Route path="/cars" element={<Cars />} />
           <Route path="/carbookings" element={<CarBookings />} />
           <Route path="/flights" element={<Flights />} />
+          <Route path="/flightbooking" element={<FlightBooking />} />
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/restaurants" element={<Restaurants />} />
           <Route path="/restaurantbookings" element={<RestaurantBookings />} />
