@@ -8,4 +8,7 @@ Steps to clone it
     7 For the front end open the folder and in cmd/terminal write npm i 
     8 run front end using "npm run dev" for admin panel
     9 cd easy-tripzy "npm i" "npm run dev" for user panel 
+
+If you have already cloned it just go to folder structure in your pc and open cmd and write git pull origin main it will get latest repoistory in your system   
+
 Done
