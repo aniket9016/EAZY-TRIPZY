@@ -6,5 +6,6 @@ Steps to clone it
     5 go to SQL server management studio -> your database copy and paste the insertRecords.txt file solve the issue if there are any because of the id 
     6 run the backend 
     7 For the front end open the folder and in cmd/terminal write npm i 
-    8 run front end using "npm run dev"
+    8 run front end using "npm run dev" for admin panel
+    9 cd easy-tripzy "npm i" "npm run dev" for user panel 
 Done
