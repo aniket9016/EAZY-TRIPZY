@@ -14,7 +14,7 @@ const AppRoutes = (
     <Route element={<Layout />}>
       <Route path="/home" element={<Home />} />
       <Route path="/restaurants" element={<Restaurants />} />
-      <Route path="/restaurants/:id" element={<RestaurantDetail />} /> 
+      <Route path="/restaurant-detail" element={<RestaurantDetail />} />
       {/* Add more routes here */}
     </Route>
   </>

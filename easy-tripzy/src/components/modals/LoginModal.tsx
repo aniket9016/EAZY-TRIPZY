@@ -99,7 +99,7 @@ export default function LoginModal({ open, onClose }: LoginModalProps) {
 
         setToken(res.data.token);
         sessionStorage.removeItem("firstLogin");
-        toast.success("Login successful!");
+        // toast.success("Login successful!");
         onClose();
       } else {
         toast.error("Login failed. No token received.");

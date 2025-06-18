@@ -193,7 +193,9 @@ export default function Restaurants() {
                     <Button
                       variant="contained"
                       size="small"
-                      onClick={() => navigate(`/restaurants/${r.id}`)}
+                      onClick={() =>
+                        navigate("/restaurant-detail", { state: r })
+                      }
                     >
                       View
                     </Button>

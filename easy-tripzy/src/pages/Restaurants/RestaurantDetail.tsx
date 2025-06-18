@@ -1,5 +1,5 @@
 // src/pages/Restaurants/RestaurantDetail.tsx
-import { useParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -14,16 +14,16 @@ import {
   MenuItem,
   Paper,
 } from "@mui/material";
+import RestaurantIcon from "@mui/icons-material/Restaurant";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PublicIcon from "@mui/icons-material/Public";
 import PhoneIcon from "@mui/icons-material/Phone";
-import RestaurantIcon from "@mui/icons-material/Restaurant";
 import DescriptionIcon from "@mui/icons-material/Description";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { getRestaurants, addRestaurantBooking } from "../../api/getApis";
+import { addRestaurantBooking } from "../../api/getApis";
 import { useAuthStore } from "../../store/authStore";
 import { toast } from "react-toastify";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 
 interface Restaurant {
   id: string;
@@ -38,41 +38,31 @@ interface Restaurant {
 }
 
 export default function RestaurantDetail() {
-  const { id } = useParams();
+  const { state } = useLocation();
   const navigate = useNavigate();
-  const token = useAuthStore((state) => state.token);
+  const restaurant = state as Restaurant | undefined;
+
+  const token = useAuthStore((s) => s.token);
   const decoded: any = token ? jwtDecode(token) : null;
   const userID = decoded
     ? decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]
     : null;
 
-  const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
-  const [loading, setLoading] = useState(true);
   const [confirmDialog, setConfirmDialog] = useState(false);
-
   const [booking, setBooking] = useState({
     mealDate: "",
     mealTime: "Lunch",
     totalPeople: "1",
   });
 
+  const [errors, setErrors] = useState({
+    mealDate: "",
+    totalPeople: "",
+  });
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await getRestaurants();
-        const restaurants = res.data as Restaurant[];
-        const match = restaurants.find((r) => r.id === id);
-        if (match) setRestaurant(match);
-        else navigate("/restaurants");
-      } catch (err) {
-        console.error("Failed to fetch restaurants", err);
-        toast.error("Failed to load restaurant data.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-  }, [id, navigate]);
+    if (!restaurant) navigate("/restaurants");
+  }, [restaurant, navigate]);
 
   const handleBooking = () => {
     if (!token || !userID) {
@@ -83,6 +73,28 @@ export default function RestaurantDetail() {
   };
 
   const confirmBooking = async () => {
+    let hasError = false;
+    const newErrors = { mealDate: "", totalPeople: "" };
+    const today = new Date().setHours(0, 0, 0, 0);
+    const selectedDate = new Date(booking.mealDate).setHours(0, 0, 0, 0);
+
+    if (!booking.mealDate) {
+      newErrors.mealDate = "Please select a meal date.";
+      hasError = true;
+    } else if (selectedDate < today) {
+      newErrors.mealDate = "You cannot book a past date.";
+      hasError = true;
+    }
+
+    const people = parseInt(booking.totalPeople);
+    if (!booking.totalPeople || isNaN(people) || people < 1) {
+      newErrors.totalPeople = "Total people must be at least 1.";
+      hasError = true;
+    }
+
+    setErrors(newErrors);
+    if (hasError) return;
+
     try {
       await addRestaurantBooking({
         restaurantID: restaurant?.id ?? "",
@@ -95,13 +107,14 @@ export default function RestaurantDetail() {
       });
       toast.success("Booking confirmed!");
       setConfirmDialog(false);
+      navigate("/my-bookings");
     } catch (error) {
       console.error("Booking error", error);
       toast.error("Booking failed. Try again.");
     }
   };
 
-  if (loading || !restaurant) {
+  if (!restaurant) {
     return (
       <Box sx={{ p: 4, textAlign: "center" }}>
         <CircularProgress />
@@ -162,11 +175,7 @@ export default function RestaurantDetail() {
       </Paper>
 
       <Box mt={4} display="flex" justifyContent="space-between" flexWrap="wrap" gap={2}>
-        <Button
-          variant="contained"
-          onClick={handleBooking}
-          sx={{ flexGrow: 1 }}
-        >
+        <Button variant="contained" onClick={handleBooking} sx={{ flexGrow: 1 }}>
           Book Restaurant
         </Button>
 
@@ -186,17 +195,31 @@ export default function RestaurantDetail() {
       </Box>
 
       {/* Booking Dialog */}
-      <Dialog open={confirmDialog} onClose={() => setConfirmDialog(false)}>
+      <Dialog
+        open={confirmDialog}
+        onClose={() => setConfirmDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Confirm Your Booking</DialogTitle>
         <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}>
           <TextField
             label="Meal Date"
             type="date"
             value={booking.mealDate}
-            onChange={(e) => setBooking({ ...booking, mealDate: e.target.value })}
+            onChange={(e) => {
+              setBooking({ ...booking, mealDate: e.target.value });
+              if (errors.mealDate) setErrors({ ...errors, mealDate: "" });
+            }}
             InputLabelProps={{ shrink: true }}
+            inputProps={{
+              min: new Date().toISOString().split("T")[0],
+            }}
+            error={!!errors.mealDate}
+            helperText={errors.mealDate}
             fullWidth
           />
+
           <TextField
             label="Meal Time"
             select
@@ -208,15 +231,22 @@ export default function RestaurantDetail() {
             <MenuItem value="Lunch">Lunch</MenuItem>
             <MenuItem value="Dinner">Dinner</MenuItem>
           </TextField>
+
           <TextField
             label="Total People"
             type="number"
             value={booking.totalPeople}
-            onChange={(e) => setBooking({ ...booking, totalPeople: e.target.value })}
+            onChange={(e) => {
+              setBooking({ ...booking, totalPeople: e.target.value });
+              if (errors.totalPeople) setErrors({ ...errors, totalPeople: "" });
+            }}
+            inputProps={{ min: 1 }}
+            error={!!errors.totalPeople}
+            helperText={errors.totalPeople}
             fullWidth
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setConfirmDialog(false)}>Cancel</Button>
           <Button variant="contained" onClick={confirmBooking}>
             Confirm Booking
