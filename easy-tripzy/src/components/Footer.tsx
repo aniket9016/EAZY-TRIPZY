@@ -22,7 +22,8 @@ export default function Footer() {
       component="footer"
       sx={{
         width: "100%",
-        background: "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)",
+        background:
+          "linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%)",
         color: "#ffffff",
         fontFamily: "Montserrat, sans-serif",
         position: "relative",
@@ -42,11 +43,11 @@ export default function Footer() {
         },
       }}
     >
-      <Container 
-        maxWidth="xl" 
-        sx={{ 
-          position: "relative", 
-          zIndex: 1, 
+      <Container
+        maxWidth="xl"
+        sx={{
+          position: "relative",
+          zIndex: 1,
           py: { xs: 4, md: 6 },
           margin: 0,
           padding: { xs: "32px 16px", md: "48px 16px" }, // Direct padding control
@@ -69,11 +70,11 @@ export default function Footer() {
         >
           {/* About Section */}
           <Box>
-            <Typography 
-              variant="h5" 
-              fontWeight="bold" 
+            <Typography
+              variant="h5"
+              fontWeight="bold"
               gutterBottom
-              sx={{ 
+              sx={{
                 color: "#ffffff",
                 mb: 2,
                 background: "linear-gradient(45deg, #00C9FF, #92FE9D)",
@@ -84,9 +85,9 @@ export default function Footer() {
             >
               Easy Tripzy
             </Typography>
-            <Typography 
-              variant="body1" 
-              sx={{ 
+            <Typography
+              variant="body1"
+              sx={{
                 color: "#ffffff",
                 lineHeight: 1.6,
                 opacity: 0.9,
@@ -100,18 +101,18 @@ export default function Footer() {
 
           {/* Quick Links Section */}
           <Box>
-            <Typography 
-              variant="h6" 
-              fontWeight="bold" 
+            <Typography
+              variant="h6"
+              fontWeight="bold"
               gutterBottom
               sx={{ color: "#ffffff", mb: 2 }}
             >
               Quick Links
             </Typography>
             <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-              <Link 
-                href="/hotels" 
-                color="inherit" 
+              <Link
+                href="/hotels"
+                color="inherit"
                 underline="hover"
                 sx={{
                   color: "#ffffff",
@@ -128,9 +129,9 @@ export default function Footer() {
                 <HotelIcon sx={{ fontSize: "1.2rem" }} />
                 Hotels
               </Link>
-              <Link 
-                href="/flights" 
-                color="inherit" 
+              <Link
+                href="/flights"
+                color="inherit"
                 underline="hover"
                 sx={{
                   color: "#ffffff",
@@ -147,9 +148,9 @@ export default function Footer() {
                 <FlightIcon sx={{ fontSize: "1.2rem" }} />
                 Flights
               </Link>
-              <Link 
-                href="/restaurants" 
-                color="inherit" 
+              <Link
+                href="/restaurants"
+                color="inherit"
                 underline="hover"
                 sx={{
                   color: "#ffffff",
@@ -166,9 +167,9 @@ export default function Footer() {
                 <RestaurantIcon sx={{ fontSize: "1.2rem" }} />
                 Restaurants
               </Link>
-              <Link 
-                href="/cars" 
-                color="inherit" 
+              <Link
+                href="/cars"
+                color="inherit"
                 underline="hover"
                 sx={{
                   color: "#ffffff",
@@ -190,18 +191,18 @@ export default function Footer() {
 
           {/* Newsletter + Social Section */}
           <Box>
-            <Typography 
-              variant="h6" 
-              fontWeight="bold" 
+            <Typography
+              variant="h6"
+              fontWeight="bold"
               gutterBottom
               sx={{ color: "#ffffff", mb: 2 }}
             >
               Stay Connected
             </Typography>
-            
+
             {/* Newsletter */}
-            <Typography 
-              variant="body2" 
+            <Typography
+              variant="body2"
               sx={{ color: "#ffffff", opacity: 0.9, mb: 2 }}
             >
               Subscribe to get the latest travel deals and updates
@@ -253,18 +254,18 @@ export default function Footer() {
             </Box>
 
             {/* Social Media */}
-            <Typography 
-              variant="body1" 
-              fontWeight="600" 
+            <Typography
+              variant="body1"
+              fontWeight="600"
               gutterBottom
               sx={{ color: "#ffffff", mb: 1.5 }}
             >
               Follow Us
             </Typography>
             <Box sx={{ display: "flex", gap: 1 }}>
-              <IconButton 
-                color="inherit" 
-                href="#" 
+              <IconButton
+                color="inherit"
+                href="#"
                 size="medium"
                 sx={{
                   color: "#ffffff",
@@ -280,9 +281,9 @@ export default function Footer() {
               >
                 <FacebookIcon />
               </IconButton>
-              <IconButton 
-                color="inherit" 
-                href="#" 
+              <IconButton
+                color="inherit"
+                href="#"
                 size="medium"
                 sx={{
                   color: "#ffffff",
@@ -298,9 +299,9 @@ export default function Footer() {
               >
                 <TwitterIcon />
               </IconButton>
-              <IconButton 
-                color="inherit" 
-                href="#" 
+              <IconButton
+                color="inherit"
+                href="#"
                 size="medium"
                 sx={{
                   color: "#ffffff",
@@ -316,9 +317,9 @@ export default function Footer() {
               >
                 <InstagramIcon />
               </IconButton>
-              <IconButton 
-                color="inherit" 
-                href="#" 
+              <IconButton
+                color="inherit"
+                href="#"
                 size="medium"
                 sx={{
                   color: "#ffffff",
@@ -342,7 +343,8 @@ export default function Footer() {
         <Box
           sx={{
             height: "1px",
-            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
+            background:
+              "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
             my: 3,
             width: "100%",
           }}
@@ -352,13 +354,14 @@ export default function Footer() {
         <Typography
           variant="body2"
           align="center"
-          sx={{ 
+          sx={{
             color: "#ffffff",
             opacity: 0.8,
             fontWeight: 400,
           }}
         >
-          © {new Date().getFullYear()} Easy Tripzy. All rights reserved. | Made with ❤️ for travelers
+          © {new Date().getFullYear()} Easy Tripzy. All rights reserved. | Made
+          with ❤️ for travelers
         </Typography>
       </Container>
     </Box>
