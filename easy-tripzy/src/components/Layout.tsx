@@ -2,26 +2,51 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import { Toolbar, Box, Container } from "@mui/material";
+import Footer from "./Footer";
 
 export default function Layout() {
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        margin: 0,
+        padding: 0,
+        "& *": {
+          boxSizing: "border-box",
+        },
+      }}
+    >
       <Navbar />
-      {/* Push content below AppBar height */}
       <Toolbar />
+      
       <Box
         component="main"
         sx={{
           flexGrow: 1,
-          py: 3,
-          minHeight: "100vh",
-          backgroundColor: "#f5f5f5", // light background for contrast
+          backgroundColor: "#f5f5f5",
+          margin: 0,
+          padding: 0,
+          marginBottom: 0, // Ensure no bottom margin
         }}
       >
-        <Container maxWidth="lg">
+        <Container 
+          maxWidth="lg" 
+          sx={{ 
+            margin: "0 auto",
+            paddingTop: "24px",
+            paddingLeft: "16px",
+            paddingRight: "16px",
+            paddingBottom: "0 !important", // Force remove bottom padding
+            marginBottom: "0 !important", // Force remove bottom margin
+          }}
+        >
           <Outlet />
         </Container>
       </Box>
-    </>
+      
+      <Footer />
+    </Box>
   );
 }

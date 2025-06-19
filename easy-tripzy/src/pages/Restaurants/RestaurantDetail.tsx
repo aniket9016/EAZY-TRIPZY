@@ -1,4 +1,3 @@
-// src/pages/Restaurants/RestaurantDetail.tsx
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import {
@@ -105,7 +104,7 @@ export default function RestaurantDetail() {
         mealDate: booking.mealDate,
         status: "Pending",
       });
-      toast.success("Booking confirmed!");
+      toast.success("Restaurant booking confirmed!");
       setConfirmDialog(false);
       navigate("/my-bookings");
     } catch (error) {
@@ -212,9 +211,7 @@ export default function RestaurantDetail() {
               if (errors.mealDate) setErrors({ ...errors, mealDate: "" });
             }}
             InputLabelProps={{ shrink: true }}
-            inputProps={{
-              min: new Date().toISOString().split("T")[0],
-            }}
+            inputProps={{ min: new Date().toISOString().split("T")[0] }}
             error={!!errors.mealDate}
             helperText={errors.mealDate}
             fullWidth
@@ -245,6 +242,45 @@ export default function RestaurantDetail() {
             helperText={errors.totalPeople}
             fullWidth
           />
+
+          {/* Booking Summary */}
+          {booking.mealDate && booking.totalPeople && !isNaN(parseInt(booking.totalPeople)) && (
+            <Paper elevation={2} sx={{ p: 2, mt: 2, backgroundColor: "#f9f9f9" }}>
+              <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+                Booking Summary
+              </Typography>
+
+              <Box display="flex" alignItems="center" gap={2}>
+                <img
+                  src={`https://localhost:7032/Images/Restaurant/${restaurant.image}`}
+                  alt={restaurant.name}
+                  style={{ width: 80, height: 60, objectFit: "cover", borderRadius: 8 }}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = "/no-image.png";
+                  }}
+                />
+                <Typography variant="body1" fontWeight="bold">
+                  {restaurant.name}
+                </Typography>
+              </Box>
+
+              <Box mt={1}>
+                <Typography variant="body2">
+                  <strong>Meal Date:</strong> {booking.mealDate}
+                </Typography>
+                <Typography variant="body2">
+                  <strong>Meal Time:</strong> {booking.mealTime}
+                </Typography>
+                <Typography variant="body2">
+                  <strong>Total People:</strong> {booking.totalPeople}
+                </Typography>
+                <Typography variant="body2" fontWeight="bold">
+                  Booking Status: Pending
+                </Typography>
+              </Box>
+            </Paper>
+          )}
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setConfirmDialog(false)}>Cancel</Button>

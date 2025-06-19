@@ -17,7 +17,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import PublicIcon from "@mui/icons-material/Public";
+import tripIcon from "../../public/appicon.svg";
 import HotelIcon from "@mui/icons-material/Hotel";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
@@ -178,10 +178,23 @@ export default function Navbar() {
               color: "inherit",
             }}
           >
-            <Avatar sx={{ bgcolor: "#2196f3", width: 32, height: 32 }}>
-              <PublicIcon fontSize="small" />
-            </Avatar>
-            <Typography variant="subtitle1" fontWeight="bold">
+            <Avatar
+              src={tripIcon}
+              alt="Easy Tripzy"
+              sx={{ width: 40, height: 40 }}
+            />
+            <Typography
+              variant="h5"
+              sx={{
+                fontWeight: "bold",
+                background: "linear-gradient(90deg, #00C9FF, #92FE9D)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                textShadow: "1px 1px 2px rgba(0,0,0,0.1)",
+                fontFamily: "Montserrat, sans-serif",
+                letterSpacing: 1,
+              }}
+            >
               Easy Tripzy
             </Typography>
           </Box>

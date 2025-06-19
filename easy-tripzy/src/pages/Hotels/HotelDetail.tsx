@@ -58,7 +58,9 @@ export default function HotelDetail() {
   const token = useAuthStore((s) => s.token);
   const decoded: any = token ? jwtDecode(token) : null;
   const userID = decoded
-    ? decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]
+    ? decoded[
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+      ]
     : null;
 
   const [confirmDialog, setConfirmDialog] = useState(false);
@@ -143,7 +145,9 @@ export default function HotelDetail() {
 
   const checkInDate = new Date(booking.checkindate).getTime();
   const checkOutDate = new Date(booking.checkoutdate).getTime();
-  const rawDays = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+  const rawDays = Math.ceil(
+    (checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)
+  );
   const totalNights =
     checkInDate && checkOutDate && checkOutDate >= checkInDate
       ? Math.max(1, rawDays)
@@ -208,8 +212,18 @@ export default function HotelDetail() {
         </Box>
       </Paper>
 
-      <Box mt={4} display="flex" justifyContent="space-between" flexWrap="wrap" gap={2}>
-        <Button variant="contained" onClick={handleBooking} sx={{ flexGrow: 1 }}>
+      <Box
+        mt={4}
+        display="flex"
+        justifyContent="space-between"
+        flexWrap="wrap"
+        gap={2}
+      >
+        <Button
+          variant="contained"
+          onClick={handleBooking}
+          sx={{ flexGrow: 1 }}
+        >
           Book Hotel
         </Button>
 
@@ -229,9 +243,17 @@ export default function HotelDetail() {
       </Box>
 
       {/* Booking Dialog */}
-      <Dialog open={confirmDialog} onClose={() => setConfirmDialog(false)} maxWidth="sm" fullWidth>
+
+      <Dialog
+        open={confirmDialog}
+        onClose={() => setConfirmDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Confirm Hotel Booking</DialogTitle>
-        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}
+        >
           <TextField
             label="Check-In Date"
             type="date"
@@ -253,13 +275,15 @@ export default function HotelDetail() {
             helperText={errors.checkindate}
             fullWidth
           />
+
           <TextField
             label="Check-Out Date"
             type="date"
             value={booking.checkoutdate}
             onChange={(e) => {
               setBooking({ ...booking, checkoutdate: e.target.value });
-              if (errors.checkoutdate) setErrors({ ...errors, checkoutdate: "" });
+              if (errors.checkoutdate)
+                setErrors({ ...errors, checkoutdate: "" });
             }}
             InputLabelProps={{
               shrink: true,
@@ -274,6 +298,7 @@ export default function HotelDetail() {
             helperText={errors.checkoutdate}
             fullWidth
           />
+
           <TextField
             label="Guests"
             type="number"
@@ -287,11 +312,14 @@ export default function HotelDetail() {
             helperText={errors.noofPeople}
             fullWidth
           />
+
           <TextField
             label="Room Type"
             select
             value={booking.roomType}
-            onChange={(e) => setBooking({ ...booking, roomType: e.target.value })}
+            onChange={(e) =>
+              setBooking({ ...booking, roomType: e.target.value })
+            }
             fullWidth
           >
             {roomTypes.map((type) => (
@@ -301,7 +329,63 @@ export default function HotelDetail() {
             ))}
           </TextField>
 
-          {/* Total Price Display */}
+          {/* Booking Summary (Only show when all data is valid) */}
+          {booking.checkindate &&
+            booking.checkoutdate &&
+            booking.noofPeople &&
+            !isNaN(parseInt(booking.noofPeople)) &&
+            parseInt(booking.noofPeople) >= 1 && (
+              <Paper
+                elevation={2}
+                sx={{ p: 2, mt: 2, backgroundColor: "#f9f9f9" }}
+              >
+                <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+                  Booking Summary
+                </Typography>
+
+                <Box display="flex" alignItems="center" gap={2}>
+                  <img
+                    src={`https://localhost:7032/Images/Hotel/${hotel.image}`}
+                    alt={hotel.name}
+                    style={{
+                      width: 80,
+                      height: 60,
+                      objectFit: "cover",
+                      borderRadius: 8,
+                    }}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "/no-image.png";
+                    }}
+                  />
+                  <Typography variant="body1" fontWeight="bold">
+                    {hotel.name}
+                  </Typography>
+                </Box>
+
+                <Box mt={1}>
+                  <Typography variant="body2">
+                    <strong>Check-In:</strong> {booking.checkindate}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Check-Out:</strong> {booking.checkoutdate}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Guests:</strong> {booking.noofPeople}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Room Type:</strong> {booking.roomType}
+                  </Typography>
+                  <Typography variant="body2">
+                    <strong>Total Nights:</strong> {totalNights}
+                  </Typography>
+                  <Typography variant="body2" fontWeight="bold">
+                    Total Price: ₹{totalPriceDisplay}
+                  </Typography>
+                </Box>
+              </Paper>
+            )}
+
           <TextField
             label="Total Price (₹)"
             value={totalPriceDisplay}
@@ -309,6 +393,7 @@ export default function HotelDetail() {
             fullWidth
           />
         </DialogContent>
+
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setConfirmDialog(false)}>Cancel</Button>
           <Button variant="contained" onClick={confirmBooking}>
