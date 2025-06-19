@@ -100,22 +100,23 @@ export default function HotelDetail() {
     if (!booking.checkoutdate) {
       newErrors.checkoutdate = "Please select a check-out date.";
       hasError = true;
-    } else if (checkOut <= checkIn) {
-      newErrors.checkoutdate = "Check-out must be after check-in.";
+    } else if (checkOut < checkIn) {
+      newErrors.checkoutdate = "Check-out cannot be before check-in.";
       hasError = true;
     }
 
     const people = parseInt(booking.noofPeople);
-    if (!booking.noofPeople || isNaN(people) || people < 1) {
-      newErrors.noofPeople = "Guests must be at least 1.";
+    if (!booking.noofPeople || isNaN(people) || people < 1 || people > 4) {
+      newErrors.noofPeople = "Guests must be between 1 and 4.";
       hasError = true;
     }
 
     setErrors(newErrors);
     if (hasError) return;
 
+    const rawDays = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+    const numberOfDays = Math.max(1, rawDays); // Same-day = 1 night
     const pricePerNight = parseFloat(hotel?.price ?? "0");
-    const numberOfDays = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24));
     const totalPrice = numberOfDays * pricePerNight;
 
     try {
@@ -139,6 +140,16 @@ export default function HotelDetail() {
       toast.error("Failed to book. Try again.");
     }
   };
+
+  const checkInDate = new Date(booking.checkindate).getTime();
+  const checkOutDate = new Date(booking.checkoutdate).getTime();
+  const rawDays = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+  const totalNights =
+    checkInDate && checkOutDate && checkOutDate >= checkInDate
+      ? Math.max(1, rawDays)
+      : 0;
+  const pricePerNight = parseFloat(hotel?.price ?? "0");
+  const totalPriceDisplay = (totalNights * pricePerNight).toFixed(2);
 
   if (!hotel) {
     return (
@@ -271,7 +282,7 @@ export default function HotelDetail() {
               setBooking({ ...booking, noofPeople: e.target.value });
               if (errors.noofPeople) setErrors({ ...errors, noofPeople: "" });
             }}
-            inputProps={{ min: 1 }}
+            inputProps={{ min: 1, max: 4 }}
             error={!!errors.noofPeople}
             helperText={errors.noofPeople}
             fullWidth
@@ -289,6 +300,14 @@ export default function HotelDetail() {
               </MenuItem>
             ))}
           </TextField>
+
+          {/* Total Price Display */}
+          <TextField
+            label="Total Price (₹)"
+            value={totalPriceDisplay}
+            InputProps={{ readOnly: true }}
+            fullWidth
+          />
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setConfirmDialog(false)}>Cancel</Button>

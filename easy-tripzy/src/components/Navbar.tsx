@@ -129,17 +129,30 @@ export default function Navbar() {
             </ListItemButton>
           </>
         ) : (
-          <ListItemButton
-            onClick={() => {
-              handleLogout();
-              toggleDrawer();
-            }}
-          >
-            <ListItemIcon>
-              <LogoutIcon />
-            </ListItemIcon>
-            <ListItemText primary="Logout" />
-          </ListItemButton>
+          <>
+            <ListItemButton
+              onClick={() => {
+                navigate("/my-bookings");
+                toggleDrawer();
+              }}
+            >
+              <ListItemIcon>
+                <EventNoteIcon />
+              </ListItemIcon>
+              <ListItemText primary="My Bookings" />
+            </ListItemButton>
+            <ListItemButton
+              onClick={() => {
+                handleLogout();
+                toggleDrawer();
+              }}
+            >
+              <ListItemIcon>
+                <LogoutIcon />
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
+            </ListItemButton>
+          </>
         )}
       </List>
     </Box>
