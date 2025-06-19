@@ -16,36 +16,39 @@ import SearchIcon from "@mui/icons-material/Search";
 import RoomIcon from "@mui/icons-material/Room";
 import PublicIcon from "@mui/icons-material/Public";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
-import StorefrontIcon from "@mui/icons-material/Storefront";
+import HotelIcon from "@mui/icons-material/Hotel";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import RestauarantIcon from "@mui/icons-material/DinnerDining";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import InfoIcon from "@mui/icons-material/Info";
-import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
-import { getRestaurants } from "../../api/getApis";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import BusinessIcon from "@mui/icons-material/Business";
 import { useNavigate } from "react-router-dom";
+import { getHotels } from "../../api/getApis";
 
-interface Restaurant {
+interface Hotel {
   id: string;
   name: string;
   desc: string;
-  phoneNumber: string;
   country: string;
   city: string;
+  address: string;
+  price: number;
+  rooms: number;
+  people: number;
+  package: string;
   image: string;
-  foodType: string;
 }
 
 const iconMap: Record<string, JSX.Element> = {
   country: <PublicIcon fontSize="small" />,
   city: <LocationCityIcon fontSize="small" />,
-  name: <StorefrontIcon fontSize="small" />,
+  name: <HotelIcon fontSize="small" />,
 };
 
-export default function Restaurants() {
+export default function Hotels() {
   const navigate = useNavigate();
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
-  const [filtered, setFiltered] = useState<Restaurant[]>([]);
+  const [hotels, setHotels] = useState<Hotel[]>([]);
+  const [filtered, setFiltered] = useState<Hotel[]>([]);
   const [filters, setFilters] = useState({ country: "", city: "", name: "" });
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
@@ -55,10 +58,10 @@ export default function Restaurants() {
     const fetchWithDelay = async () => {
       setLoading(true);
       const delay = new Promise((res) => setTimeout(res, 2000));
-      const data = getRestaurants().then((res) => res.data as Restaurant[]);
-      const [_, restaurants] = await Promise.all([delay, data]);
-      setRestaurants(restaurants);
-      setFiltered(restaurants);
+      const data = getHotels().then((res) => res.data as Hotel[]);
+      const [_, hotels] = await Promise.all([delay, data]);
+      setHotels(hotels);
+      setFiltered(hotels);
       setLoading(false);
     };
     fetchWithDelay();
@@ -66,16 +69,16 @@ export default function Restaurants() {
 
   useEffect(() => {
     const { country, city, name } = filters;
-    const filteredList = restaurants.filter((r) => {
+    const filteredList = hotels.filter((h) => {
       return (
-        r.country.toLowerCase().includes(country.toLowerCase()) &&
-        r.city.toLowerCase().includes(city.toLowerCase()) &&
-        r.name.toLowerCase().includes(name.toLowerCase())
+        h.country.toLowerCase().includes(country.toLowerCase()) &&
+        h.city.toLowerCase().includes(city.toLowerCase()) &&
+        h.name.toLowerCase().includes(name.toLowerCase())
       );
     });
     setFiltered(filteredList);
     setPage(1);
-  }, [filters, restaurants]);
+  }, [filters, hotels]);
 
   const paginated = filtered.slice(
     (page - 1) * rowsPerPage,
@@ -97,7 +100,7 @@ export default function Restaurants() {
           gap: 1,
         }}
       >
-        <RestauarantIcon color="primary" /> Restaurant Offers
+        <HotelIcon color="primary" /> Hotel Offers
       </Typography>
 
       <Box
@@ -107,7 +110,6 @@ export default function Restaurants() {
           gap: 4,
         }}
       >
-        {/* Restaurant Cards */}
         <Box sx={{ flex: 2, order: { xs: 1, md: 0 } }}>
           {loading ? (
             Array.from({ length: rowsPerPage }).map((_, index) => (
@@ -123,7 +125,12 @@ export default function Restaurants() {
                   backgroundColor: "#fefefe",
                 }}
               >
-                <Skeleton variant="rectangular" width={200} height="100%" />
+                <Skeleton
+                  variant="rectangular"
+                  width={200}
+                  height="100%"
+                  sx={{ flexShrink: 0 }}
+                />
                 <CardContent sx={{ flex: 1 }}>
                   <Skeleton width="60%" />
                   <Skeleton width="40%" />
@@ -134,9 +141,9 @@ export default function Restaurants() {
               </Card>
             ))
           ) : paginated.length > 0 ? (
-            paginated.map((r) => (
+            paginated.map((h) => (
               <Card
-                key={r.id}
+                key={h.id}
                 sx={{
                   display: "flex",
                   height: { xs: "auto", sm: 200 },
@@ -157,11 +164,11 @@ export default function Restaurants() {
                     flexShrink: 0,
                   }}
                   image={
-                    r.image
-                      ? `https://localhost:7032/Images/Restaurant/${r.image}`
+                    h.image
+                      ? `https://localhost:7032/Images/Hotel/${h.image}`
                       : "/no-image.png"
                   }
-                  alt={r.name}
+                  alt={h.name}
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = "/no-image.png";
@@ -183,7 +190,7 @@ export default function Restaurants() {
                       sx={{ display: "flex", alignItems: "center", gap: 1 }}
                       color="text.primary"
                     >
-                      <StorefrontIcon fontSize="small" /> {r.name}
+                      <BusinessIcon fontSize="small" /> {h.name}
                     </Typography>
 
                     <Typography
@@ -196,7 +203,7 @@ export default function Restaurants() {
                         fontWeight: 500,
                       }}
                     >
-                      <RoomIcon fontSize="small" /> {r.city}, {r.country}
+                      <RoomIcon fontSize="small" /> {h.city}, {h.country}
                     </Typography>
 
                     <Typography
@@ -209,7 +216,7 @@ export default function Restaurants() {
                       }}
                     >
                       <InfoIcon fontSize="small" />
-                      {r.desc}
+                      {h.desc}
                     </Typography>
 
                     <Typography
@@ -221,8 +228,8 @@ export default function Restaurants() {
                         fontWeight: "bold",
                       }}
                     >
-                      <PhoneAndroidIcon fontSize="small" />
-                      {r.phoneNumber}
+                      <AttachMoneyIcon fontSize="small" />
+                      ₹{h.price} / night - {h.package}
                     </Typography>
                   </Box>
                   <Box
@@ -231,9 +238,7 @@ export default function Restaurants() {
                     <Button
                       variant="contained"
                       size="small"
-                      onClick={() =>
-                        navigate("/restaurant-detail", { state: r })
-                      }
+                      onClick={() => navigate("/hotel-detail", { state: h })}
                     >
                       View
                     </Button>
@@ -242,7 +247,7 @@ export default function Restaurants() {
               </Card>
             ))
           ) : (
-            <Typography variant="body1">No restaurants found.</Typography>
+            <Typography variant="body1">No hotels found.</Typography>
           )}
 
           {!loading && Math.ceil(filtered.length / rowsPerPage) > 1 && (

@@ -40,11 +40,33 @@ import { useAuthStore } from "../store/authStore";
 import { toast } from "react-toastify";
 
 function isCancellable(dateStr: string) {
-  const bookingDate = new Date(dateStr);
+  const serviceDate = new Date(dateStr);
   const today = new Date();
-  const diffDays = (bookingDate.getTime() - today.getTime()) / (1000 * 3600 * 24);
+  const diffDays = (serviceDate.getTime() - today.getTime()) / (1000 * 3600 * 24);
   return diffDays >= 7;
 }
+
+// Helper function to get the appropriate service date field for each booking type
+const getServiceDateField = (type: string) => {
+  switch (type) {
+    case "car":
+      return "pickupDate"; // Use PickupDate from CarBooking table
+    case "hotel":
+      return "checkindate"; // Use Checkindate from HotelBooking table
+    case "restaurant":
+      return "mealDate"; // Use MealDate from RestaurantBooking table
+    case "flight":
+      return "bookingDate"; // For flights, we'll still use booking date as there's no separate flight date
+    default:
+      return "bookingDate";
+  }
+};
+
+// Helper function to get service date from booking object
+const getServiceDate = (booking: any, type: string) => {
+  const dateField = getServiceDateField(type);
+  return booking[dateField];
+};
 
 const CARDS_PER_PAGE = 3;
 
@@ -219,14 +241,12 @@ export default function MyBookings() {
       switch (type) {
         case "car":
           await deleteCarBooking(id);
-          // Immediately update local state
           setCarBookings(prev => {
             const updated = prev.filter(booking => 
               (booking.carBookingID || booking.carBookingId || booking.id) !== id
             );
-            // Reset pagination if needed
             setTimeout(() => {
-              const filtered = filterBookings(updated, "bookingDate");
+              const filtered = filterBookings(updated, type);
               resetPaginationIfNeeded("car", filtered.length);
             }, 0);
             return updated;
@@ -234,14 +254,12 @@ export default function MyBookings() {
           break;
         case "flight":
           await deleteFlightBooking(id);
-          // Immediately update local state
           setFlightBookings(prev => {
             const updated = prev.filter(booking => 
               (booking.flightBookingID || booking.flightBookingId || booking.id) !== id
             );
-            // Reset pagination if needed
             setTimeout(() => {
-              const filtered = filterBookings(updated, "bookingDate");
+              const filtered = filterBookings(updated, type);
               resetPaginationIfNeeded("flight", filtered.length);
             }, 0);
             return updated;
@@ -249,14 +267,12 @@ export default function MyBookings() {
           break;
         case "hotel":
           await deleteHotelBooking(id);
-          // Immediately update local state
           setHotelBookings(prev => {
             const updated = prev.filter(booking => 
               (booking.hotelBookingID || booking.hotelBookingId || booking.id) !== id
             );
-            // Reset pagination if needed
             setTimeout(() => {
-              const filtered = filterBookings(updated, "bookingDate");
+              const filtered = filterBookings(updated, type);
               resetPaginationIfNeeded("hotel", filtered.length);
             }, 0);
             return updated;
@@ -264,14 +280,12 @@ export default function MyBookings() {
           break;
         case "restaurant":
           await deleteRestaurantBooking(id);
-          // Immediately update local state
           setRestaurantBookings(prev => {
             const updated = prev.filter(booking => 
               (booking.restaurantBookingID || booking.restaurantBookingId || booking.id) !== id
             );
-            // Reset pagination if needed
             setTimeout(() => {
-              const filtered = filterBookings(updated, "mealDate");
+              const filtered = filterBookings(updated, type);
               resetPaginationIfNeeded("restaurant", filtered.length);
             }, 0);
             return updated;
@@ -289,10 +303,6 @@ export default function MyBookings() {
       setSelectedBookingInfo(null);
       setLoading(false);
       
-      // Optional: Refresh data from server to ensure consistency
-      // Uncomment the line below if you want to double-check with server data
-      // await fetchAll();
-      
     } catch (error) {
       console.error(`Error ${isPast ? "deleting" : "cancelling"} booking:`, error);
       toast.error(`Failed to ${isPast ? "delete" : "cancel"} booking. Please try again.`);
@@ -300,21 +310,31 @@ export default function MyBookings() {
     }
   };
 
-  const filterBookings = (bookings: any[], dateField: string) => {
-    return bookings.filter((b) =>
-      view === "past"
-        ? new Date(b[dateField]) < new Date()
-        : new Date(b[dateField]) >= new Date()
-    );
+  // Updated filterBookings function to use service dates instead of booking dates
+  const filterBookings = (bookings: any[], type: string) => {
+    return bookings.filter((booking) => {
+      const serviceDate = getServiceDate(booking, type);
+      if (!serviceDate) return false;
+      
+      const serviceDateObj = new Date(serviceDate);
+      const today = new Date();
+      
+      return view === "past"
+        ? serviceDateObj < today
+        : serviceDateObj >= today;
+    });
   };
 
-  const renderCards = (filtered: any[], type: string, dateField: string, isPast: boolean) => {
+  const renderCards = (filtered: any[], type: string, isPast: boolean) => {
     const page = pages[type as keyof typeof pages];
-    const sorted = [...filtered].sort((a, b) =>
-      isPast
-        ? new Date(b[dateField]).getTime() - new Date(a[dateField]).getTime()
-        : new Date(a[dateField]).getTime() - new Date(b[dateField]).getTime()
-    );
+    const sorted = [...filtered].sort((a, b) => {
+      const dateA = new Date(getServiceDate(a, type));
+      const dateB = new Date(getServiceDate(b, type));
+      
+      return isPast
+        ? dateB.getTime() - dateA.getTime() // Past: most recent first
+        : dateA.getTime() - dateB.getTime(); // Upcoming: earliest first
+    });
 
     const start = (page - 1) * CARDS_PER_PAGE;
     const paginated = sorted.slice(start, start + CARDS_PER_PAGE);
@@ -341,6 +361,8 @@ export default function MyBookings() {
                 bookingId = b.restaurantBookingID || b.restaurantBookingId || b.id;
                 break;
             }
+
+            const serviceDate = getServiceDate(b, type);
 
             return (
               <Grid key={bookingId}>
@@ -388,14 +410,37 @@ export default function MyBookings() {
                        `${item.departureLocation} → ${item.arrivalLocation}` ||
                        `Departure: ${item.departureTime}, Arrival: ${item.arrivalTime}`}
                     </Typography>
+                    
+                    {/* Service Date Display */}
                     <Typography variant="body1" mt={0.5}>
-                      <strong>Booking Date:</strong> {new Date(b[dateField]).toDateString()}
+                      <strong>
+                        {type === "car" && "Pickup Date:"}
+                        {type === "hotel" && "Check-in Date:"}
+                        {type === "restaurant" && "Meal Date:"}
+                        {type === "flight" && "Flight Date:"}
+                      </strong> {serviceDate ? new Date(serviceDate).toDateString() : "N/A"}
+                    </Typography>
+                    
+                    {/* Additional date information for car and hotel */}
+                    {type === "car" && b.returnDate && (
+                      <Typography variant="body1">
+                        <strong>Return Date:</strong> {new Date(b.returnDate).toDateString()}
+                      </Typography>
+                    )}
+                    {type === "hotel" && b.checkoutdate && (
+                      <Typography variant="body1">
+                        <strong>Check-out Date:</strong> {new Date(b.checkoutdate).toDateString()}
+                      </Typography>
+                    )}
+                    
+                    <Typography variant="body1">
+                      <strong>Booking Date:</strong> {new Date(b.bookingDate).toDateString()}
                     </Typography>
                     <Typography variant="body1">
                       <strong>User:</strong> {username}
                     </Typography>
                     <Typography variant="body1">
-                      <strong>Status:</strong> {b.status || "Confirmed"}
+                      <strong>Status:</strong> {b.status || b.bookingStatus || "Confirmed"}
                     </Typography>
                     {type === "flight" && (
                       <>
@@ -407,6 +452,31 @@ export default function MyBookings() {
                         </Typography>
                       </>
                     )}
+                    {type === "restaurant" && (
+                      <>
+                        <Typography variant="body1">
+                          <strong>Meal Time:</strong> {b.mealTime || "N/A"}
+                        </Typography>
+                        <Typography variant="body1">
+                          <strong>Total People:</strong> {b.totalPeople || 0}
+                        </Typography>
+                      </>
+                    )}
+                    {type === "hotel" && (
+                      <>
+                        <Typography variant="body1">
+                          <strong>Room Type:</strong> {b.roomType || "N/A"}
+                        </Typography>
+                        <Typography variant="body1">
+                          <strong>No. of People:</strong> {b.noofPeople || 0}
+                        </Typography>
+                      </>
+                    )}
+                    {type === "car" && (
+                      <Typography variant="body1">
+                        <strong>Rental Days:</strong> {b.rental_days || b.rentalDays || 0}
+                      </Typography>
+                    )}
                   </CardContent>
                   <CardActions sx={{ justifyContent: 'center', padding: 1, paddingTop: 0 }}>
                     <Button
@@ -417,7 +487,7 @@ export default function MyBookings() {
                         setSelectedBookingInfo({
                           type,
                           id: bookingId,
-                          date: b[dateField],
+                          date: serviceDate,
                           isPast,
                         });
                         setConfirmDialogOpen(true);
@@ -450,10 +520,9 @@ export default function MyBookings() {
   const renderSection = (
     title: string,
     bookings: any[],
-    type: string,
-    dateField: string
+    type: string
   ) => {
-    const filtered = filterBookings(bookings, dateField);
+    const filtered = filterBookings(bookings, type);
     if (filtered.length === 0) return null;
 
     return (
@@ -461,16 +530,16 @@ export default function MyBookings() {
         <Typography variant="h5" fontWeight={600} mb={2} textAlign="left">
           {title}
         </Typography>
-        {renderCards(filtered, type, dateField, view === "past")}
+        {renderCards(filtered, type, view === "past")}
       </Box>
     );
   };
 
   const allFilteredCounts = [
-    filterBookings(carBookings, "bookingDate").length,
-    filterBookings(flightBookings, "bookingDate").length,
-    filterBookings(hotelBookings, "bookingDate").length,
-    filterBookings(restaurantBookings, "mealDate").length,
+    filterBookings(carBookings, "car").length,
+    filterBookings(flightBookings, "flight").length,
+    filterBookings(hotelBookings, "hotel").length,
+    filterBookings(restaurantBookings, "restaurant").length,
   ];
   const hasAnyBooking = allFilteredCounts.some((count) => count > 0);
 
@@ -515,10 +584,10 @@ export default function MyBookings() {
 
       {hasAnyBooking ? (
         <Box>
-          {renderSection("Car Bookings", carBookings, "car", "bookingDate")}
-          {renderSection("Flight Bookings", flightBookings, "flight", "bookingDate")}
-          {renderSection("Hotel Bookings", hotelBookings, "hotel", "bookingDate")}
-          {renderSection("Restaurant Bookings", restaurantBookings, "restaurant", "mealDate")}
+          {renderSection("Car Bookings", carBookings, "car")}
+          {renderSection("Flight Bookings", flightBookings, "flight")}
+          {renderSection("Hotel Bookings", hotelBookings, "hotel")}
+          {renderSection("Restaurant Bookings", restaurantBookings, "restaurant")}
         </Box>
       ) : (
         <Typography variant="h6" color="text.secondary" textAlign="center" mt={4}>
