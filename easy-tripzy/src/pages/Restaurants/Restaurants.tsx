@@ -19,6 +19,7 @@ import PublicIcon from "@mui/icons-material/Public";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import RestauarantIcon from "@mui/icons-material/DinnerDining";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { getRestaurants } from "../../api/getApis";
 import { useNavigate } from "react-router-dom";
@@ -95,7 +96,7 @@ export default function Restaurants() {
           gap: 1,
         }}
       >
-        <FilterAltIcon color="primary" /> Restaurant Offers
+        <RestauarantIcon color="primary" /> Restaurant Offers
       </Typography>
 
       <Box

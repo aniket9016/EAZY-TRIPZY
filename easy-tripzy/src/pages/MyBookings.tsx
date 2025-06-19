@@ -17,6 +17,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Skeleton,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -30,9 +31,9 @@ import {
   deleteHotelBooking,
   deleteRestaurantBooking,
   getCarById,
+  getFlightById,
   getHotelById,
   getRestaurantById,
-  getFlightBookingById,
 } from "../api/getApis";
 import { jwtDecode } from "jwt-decode";
 import { useAuthStore } from "../store/authStore";
@@ -45,14 +46,65 @@ function isCancellable(dateStr: string) {
   return diffDays >= 7;
 }
 
-const CARDS_PER_PAGE = 6;
+const CARDS_PER_PAGE = 3;
+
+// Skeleton Card Component
+const BookingCardSkeleton = () => (
+  <Grid >
+    <Card 
+      elevation={4} 
+      sx={{ 
+        borderRadius: 3, 
+        height: "100%",
+        width: 350,
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0 auto'
+      }}
+    >
+      <Skeleton variant="rectangular" width="100%" height={200} />
+      <CardContent 
+        sx={{ 
+          flexGrow: 1, 
+          display: 'flex', 
+          flexDirection: 'column',
+          textAlign: 'left',
+          padding: 1.5,
+          paddingBottom: 1
+        }}
+      >
+        <Skeleton variant="text" sx={{ fontSize: '1.5rem', width: '80%' }} />
+        <Skeleton variant="text" sx={{ fontSize: '1rem', width: '100%', mt: 1 }} />
+        <Skeleton variant="text" sx={{ fontSize: '1rem', width: '90%' }} />
+        <Skeleton variant="text" sx={{ fontSize: '1rem', width: '70%' }} />
+        <Skeleton variant="text" sx={{ fontSize: '1rem', width: '60%' }} />
+        <Skeleton variant="text" sx={{ fontSize: '1rem', width: '80%' }} />
+      </CardContent>
+      <CardActions sx={{ justifyContent: 'center', padding: 1, paddingTop: 0 }}>
+        <Skeleton variant="rectangular" width={100} height={36} sx={{ borderRadius: 1 }} />
+      </CardActions>
+    </Card>
+  </Grid>
+);
+
+// Skeleton Section Component
+const BookingSectionSkeleton = ({ title }: { title: string }) => (
+  <Box my={4}>
+    <Typography variant="h5" fontWeight={600} mb={2} textAlign="left">
+      {title}
+    </Typography>
+    <Grid container spacing={3} justifyContent="center">
+      {Array.from({ length: 3 }).map((_, index) => (
+        <BookingCardSkeleton key={index} />
+      ))}
+    </Grid>
+  </Box>
+);
 
 export default function MyBookings() {
   const token = useAuthStore((s) => s.token);
   const decoded: any = token ? jwtDecode(token) : null;
-  const userID = decoded
-    ? decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]
-    : null;
+  const userID = decoded?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
   const username = decoded?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
 
   const [carBookings, setCarBookings] = useState<any[]>([]);
@@ -77,19 +129,26 @@ export default function MyBookings() {
   const fetchDetails = async (type: string, bookings: any[]) => {
     const detailPromises = bookings.map(async (b) => {
       let details = null;
-      switch (type) {
-        case "car":
-          details = await getCarById(b.carID);
-          return { ...b, details: details.data };
-        case "hotel":
-          details = await getHotelById(b.hotelID);
-          return { ...b, details: details.data };
-        case "restaurant":
-          details = await getRestaurantById(b.restaurantID);
-          return { ...b, details: details.data };
-        case "flight":
-          details = await getFlightBookingById(b.flightID);
-          return { ...b, details: details.data };
+      try {
+        switch (type) {
+          case "car":
+            details = await getCarById(b.carID);
+            return { ...b, details: details.data };
+          case "hotel":
+            details = await getHotelById(b.hotelID);
+            return { ...b, details: details.data };
+          case "restaurant":
+            details = await getRestaurantById(b.restaurantID);
+            return { ...b, details: details.data };
+          case "flight":
+            details = await getFlightById(b.flightID);
+            return { ...b, details: details.data };
+          default:
+            return b;
+        }
+      } catch (error) {
+        console.error(`Error fetching ${type} details:`, error);
+        return b;
       }
     });
     return await Promise.all(detailPromises);
@@ -97,6 +156,7 @@ export default function MyBookings() {
 
   const fetchAll = async () => {
     try {
+      setLoading(true);
       const [carRes, flightRes, hotelRes, restaurantRes] = await Promise.all([
         getCarBookings(),
         getFlightBookings(),
@@ -104,10 +164,10 @@ export default function MyBookings() {
         getRestaurantBookings(),
       ]);
 
-      const userCars = carRes.data.filter((b: any) => b.userID === userID);
-      const userFlights = flightRes.data.filter((b: any) => b.userID === userID);
-      const userHotels = hotelRes.data.filter((b: any) => b.userID === userID);
-      const userRestaurants = restaurantRes.data.filter((b: any) => b.userID === userID);
+      const userCars = (carRes.data as any[]).filter((b: any) => b.userID === userID);
+      const userFlights = (flightRes.data as any[]).filter((b: any) => b.userID === userID);
+      const userHotels = (hotelRes.data as any[]).filter((b: any) => b.userID === userID);
+      const userRestaurants = (restaurantRes.data as any[]).filter((b: any) => b.userID === userID);
 
       const [carsWithDetails, flightsWithDetails, hotelsWithDetails, restaurantsWithDetails] =
         await Promise.all([
@@ -122,6 +182,7 @@ export default function MyBookings() {
       setHotelBookings(hotelsWithDetails);
       setRestaurantBookings(restaurantsWithDetails);
     } catch (err) {
+      console.error("Error fetching bookings:", err);
       toast.error("Failed to load bookings.");
     } finally {
       setLoading(false);
@@ -132,6 +193,14 @@ export default function MyBookings() {
     if (userID) fetchAll();
   }, [userID]);
 
+  const resetPaginationIfNeeded = (type: string, filteredLength: number) => {
+    const currentPage = pages[type as keyof typeof pages];
+    const maxPage = Math.ceil(filteredLength / CARDS_PER_PAGE);
+    if (currentPage > maxPage && maxPage > 0) {
+      setPages(prev => ({ ...prev, [type]: maxPage }));
+    }
+  };
+
   const handleCancelOrDelete = async () => {
     if (!selectedBookingInfo) return;
     const { type, id, date, isPast } = selectedBookingInfo;
@@ -139,40 +208,103 @@ export default function MyBookings() {
     try {
       if (!isPast && !isCancellable(date)) {
         toast.warn("Bookings can only be cancelled at least 7 days in advance.");
+        setConfirmDialogOpen(false);
+        setSelectedBookingInfo(null);
         return;
       }
+
+      // Show loading state during deletion
+      setLoading(true);
 
       switch (type) {
         case "car":
           await deleteCarBooking(id);
+          // Immediately update local state
+          setCarBookings(prev => {
+            const updated = prev.filter(booking => 
+              (booking.carBookingID || booking.carBookingId || booking.id) !== id
+            );
+            // Reset pagination if needed
+            setTimeout(() => {
+              const filtered = filterBookings(updated, "bookingDate");
+              resetPaginationIfNeeded("car", filtered.length);
+            }, 0);
+            return updated;
+          });
           break;
         case "flight":
           await deleteFlightBooking(id);
+          // Immediately update local state
+          setFlightBookings(prev => {
+            const updated = prev.filter(booking => 
+              (booking.flightBookingID || booking.flightBookingId || booking.id) !== id
+            );
+            // Reset pagination if needed
+            setTimeout(() => {
+              const filtered = filterBookings(updated, "bookingDate");
+              resetPaginationIfNeeded("flight", filtered.length);
+            }, 0);
+            return updated;
+          });
           break;
         case "hotel":
           await deleteHotelBooking(id);
+          // Immediately update local state
+          setHotelBookings(prev => {
+            const updated = prev.filter(booking => 
+              (booking.hotelBookingID || booking.hotelBookingId || booking.id) !== id
+            );
+            // Reset pagination if needed
+            setTimeout(() => {
+              const filtered = filterBookings(updated, "bookingDate");
+              resetPaginationIfNeeded("hotel", filtered.length);
+            }, 0);
+            return updated;
+          });
           break;
         case "restaurant":
           await deleteRestaurantBooking(id);
+          // Immediately update local state
+          setRestaurantBookings(prev => {
+            const updated = prev.filter(booking => 
+              (booking.restaurantBookingID || booking.restaurantBookingId || booking.id) !== id
+            );
+            // Reset pagination if needed
+            setTimeout(() => {
+              const filtered = filterBookings(updated, "mealDate");
+              resetPaginationIfNeeded("restaurant", filtered.length);
+            }, 0);
+            return updated;
+          });
           break;
       }
 
       toast.success(
         `${type.charAt(0).toUpperCase() + type.slice(1)} booking ${
           isPast ? "deleted" : "cancelled"
-        }.`
+        } successfully.`
       );
+      
       setConfirmDialogOpen(false);
       setSelectedBookingInfo(null);
-      fetchAll();
-    } catch {
-      toast.error(`Failed to ${isPast ? "delete" : "cancel"} booking.`);
+      setLoading(false);
+      
+      // Optional: Refresh data from server to ensure consistency
+      // Uncomment the line below if you want to double-check with server data
+      // await fetchAll();
+      
+    } catch (error) {
+      console.error(`Error ${isPast ? "deleting" : "cancelling"} booking:`, error);
+      toast.error(`Failed to ${isPast ? "delete" : "cancel"} booking. Please try again.`);
+      setLoading(false);
     }
   };
 
   const filterBookings = (bookings: any[], dateField: string) => {
     return bookings.filter((b) =>
-      view === "past" ? new Date(b[dateField]) < new Date() : new Date(b[dateField]) >= new Date()
+      view === "past"
+        ? new Date(b[dateField]) < new Date()
+        : new Date(b[dateField]) >= new Date()
     );
   };
 
@@ -189,34 +321,94 @@ export default function MyBookings() {
 
     return (
       <>
-        <Grid container spacing={2}>
+        <Grid container spacing={3} justifyContent="center">
           {paginated.map((b) => {
             const item = b.details;
             if (!item) return null;
 
-            let bookingId = b.carBookingID || b.flightBookingID || b.hotelBookingID || b.restaurantBookingID;
+            let bookingId = "";
+            switch (type) {
+              case "car":
+                bookingId = b.carBookingID || b.carBookingId || b.id;
+                break;
+              case "flight":
+                bookingId = b.flightBookingID || b.flightBookingId || b.id;
+                break;
+              case "hotel":
+                bookingId = b.hotelBookingID || b.hotelBookingId || b.id;
+                break;
+              case "restaurant":
+                bookingId = b.restaurantBookingID || b.restaurantBookingId || b.id;
+                break;
+            }
 
             return (
-              <Grid item xs={12} sm={6} md={4} key={bookingId}>
-                <Card elevation={4} sx={{ borderRadius: 3 }}>
+              <Grid key={bookingId}>
+                <Card 
+                  elevation={4} 
+                  sx={{ 
+                    borderRadius: 3, 
+                    height: "100%",
+                    width: 350,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    margin: '0 auto'
+                  }}
+                >
                   <CardMedia
                     component="img"
-                    height="180"
+                    height="200"
+                    width="100%"
                     image={getImageUrl(type.charAt(0).toUpperCase() + type.slice(1), item.image)}
                     alt={item.name}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = '/placeholder-image.jpg';
+                    }}
+                    sx={{
+                      objectFit: 'cover',
+                      width: '100%',
+                      height: '200px'
+                    }}
                   />
-                  <CardContent>
-                    <Typography fontWeight="bold">{item.name}</Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {item.desc || item.address || item.combinedDepLocation}
+                  <CardContent 
+                    sx={{ 
+                      flexGrow: 1, 
+                      display: 'flex', 
+                      flexDirection: 'column',
+                      textAlign: 'left',
+                      padding: 1.5,
+                      paddingBottom: 1
+                    }}
+                  >
+                    <Typography fontWeight="bold" variant="h5" gutterBottom>
+                      {item.name || item.airline || item.flightNumber}
                     </Typography>
-                    <Typography mt={1}>
-                      Booking Date: {new Date(b[dateField]).toDateString()}
+                    <Typography variant="body1" color="text.secondary" gutterBottom>
+                      {item.desc || item.address || item.combinedDepLocation || 
+                       `${item.departureLocation} → ${item.arrivalLocation}` ||
+                       `Departure: ${item.departureTime}, Arrival: ${item.arrivalTime}`}
                     </Typography>
-                    <Typography>User: {username}</Typography>
-                    <Typography>Status: {b.status || "Confirmed"}</Typography>
+                    <Typography variant="body1" mt={0.5}>
+                      <strong>Booking Date:</strong> {new Date(b[dateField]).toDateString()}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>User:</strong> {username}
+                    </Typography>
+                    <Typography variant="body1">
+                      <strong>Status:</strong> {b.status || "Confirmed"}
+                    </Typography>
+                    {type === "flight" && (
+                      <>
+                        <Typography variant="body1">
+                          <strong>Adults:</strong> {b.adults || 0}
+                        </Typography>
+                        <Typography variant="body1">
+                          <strong>Kids:</strong> {b.kids || 0}
+                        </Typography>
+                      </>
+                    )}
                   </CardContent>
-                  <CardActions>
+                  <CardActions sx={{ justifyContent: 'center', padding: 1, paddingTop: 0 }}>
                     <Button
                       variant="outlined"
                       color={isPast ? "error" : "warning"}
@@ -230,6 +422,7 @@ export default function MyBookings() {
                         });
                         setConfirmDialogOpen(true);
                       }}
+                      disabled={!bookingId}
                     >
                       {isPast ? "Delete" : "Cancel"}
                     </Button>
@@ -239,6 +432,7 @@ export default function MyBookings() {
             );
           })}
         </Grid>
+
         {Math.ceil(filtered.length / CARDS_PER_PAGE) > 1 && (
           <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
             <Pagination
@@ -264,7 +458,7 @@ export default function MyBookings() {
 
     return (
       <Box my={4}>
-        <Typography variant="h5" fontWeight={600} mb={2}>
+        <Typography variant="h5" fontWeight={600} mb={2} textAlign="left">
           {title}
         </Typography>
         {renderCards(filtered, type, dateField, view === "past")}
@@ -280,34 +474,54 @@ export default function MyBookings() {
   ];
   const hasAnyBooking = allFilteredCounts.some((count) => count > 0);
 
+  // Show loading state
+  if (loading) {
+    return (
+      <Box p={3}>
+        <Skeleton variant="text" sx={{ fontSize: '2rem', width: '300px', mb: 2 }} />
+        <Skeleton variant="text" sx={{ fontSize: '1.25rem', width: '250px', mb: 3 }} />
+        
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+          <Skeleton variant="rectangular" width={200} height={40} sx={{ borderRadius: 1 }} />
+        </Box>
+
+        <BookingSectionSkeleton title="Car Bookings" />
+        <BookingSectionSkeleton title="Flight Bookings" />
+        <BookingSectionSkeleton title="Hotel Bookings" />
+        <BookingSectionSkeleton title="Restaurant Bookings" />
+      </Box>
+    );
+  }
+
   return (
     <Box p={3}>
-      <Typography variant="h4" fontWeight={700} mb={2}>
+      <Typography variant="h4" fontWeight={700} mb={2} textAlign="left">
         Welcome, {username || "User"}
       </Typography>
-      <Typography variant="h6" color="text.secondary" mb={3}>
+      <Typography variant="h6" color="text.secondary" mb={3} textAlign="left">
         Here are your bookings:
       </Typography>
 
-      <ToggleButtonGroup
-        value={view}
-        exclusive
-        onChange={(_, v) => v && setView(v)}
-        sx={{ mb: 4 }}
-      >
-        <ToggleButton value="upcoming">Upcoming Bookings</ToggleButton>
-        <ToggleButton value="past">Past Bookings</ToggleButton>
-      </ToggleButtonGroup>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+        <ToggleButtonGroup
+          value={view}
+          exclusive
+          onChange={(_, v) => v && setView(v)}
+        >
+          <ToggleButton value="upcoming">Upcoming Bookings</ToggleButton>
+          <ToggleButton value="past">Past Bookings</ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
 
       {hasAnyBooking ? (
-        <Grid container direction="column">
+        <Box>
           {renderSection("Car Bookings", carBookings, "car", "bookingDate")}
           {renderSection("Flight Bookings", flightBookings, "flight", "bookingDate")}
           {renderSection("Hotel Bookings", hotelBookings, "hotel", "bookingDate")}
           {renderSection("Restaurant Bookings", restaurantBookings, "restaurant", "mealDate")}
-        </Grid>
+        </Box>
       ) : (
-        <Typography variant="h6" color="text.secondary">
+        <Typography variant="h6" color="text.secondary" textAlign="center" mt={4}>
           No {view === "upcoming" ? "upcoming" : "past"} bookings found.
         </Typography>
       )}
@@ -319,13 +533,15 @@ export default function MyBookings() {
         <DialogContent>
           <DialogContentText>
             Are you sure you want to {selectedBookingInfo?.isPast ? "delete" : "cancel"} this
-            booking?
+            booking? This action cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setConfirmDialogOpen(false)}>No</Button>
+          <Button onClick={() => setConfirmDialogOpen(false)}>
+            No, Keep Booking
+          </Button>
           <Button onClick={handleCancelOrDelete} variant="contained" color="error">
-            Yes
+            Yes, {selectedBookingInfo?.isPast ? "Delete" : "Cancel"}
           </Button>
         </DialogActions>
       </Dialog>

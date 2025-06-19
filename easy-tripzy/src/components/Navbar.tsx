@@ -21,7 +21,6 @@ import PublicIcon from "@mui/icons-material/Public";
 import HotelIcon from "@mui/icons-material/Hotel";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
-import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import LoginIcon from "@mui/icons-material/Login";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -40,7 +39,6 @@ const navItems = [
   { text: "Hotels", path: "/hotels", icon: <HotelIcon /> },
   { text: "Flights", path: "/flights", icon: <FlightTakeoffIcon /> },
   { text: "Restaurants", path: "/restaurants", icon: <RestaurantIcon /> },
-  { text: "Activities", path: "/activities", icon: <EmojiEventsIcon /> },
   { text: "Cars", path: "/cars", icon: <DirectionsCarIcon /> },
 ];
 
