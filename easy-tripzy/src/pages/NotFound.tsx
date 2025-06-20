@@ -1,5 +1,5 @@
 // src/pages/NotFound.tsx
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Toolbar } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 export default function NotFound() {
@@ -7,6 +7,8 @@ export default function NotFound() {
 
   return (
     <Box textAlign="center" mt={10}>
+      <Toolbar />
+
       <Typography variant="h2" fontWeight={700} gutterBottom>
         404
       </Typography>
@@ -19,6 +21,8 @@ export default function NotFound() {
       <Button variant="contained" onClick={() => navigate("/home")}>
         Go to Home
       </Button>
+      <Toolbar />
+      <Toolbar />
     </Box>
   );
 }

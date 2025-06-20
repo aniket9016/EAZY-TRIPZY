@@ -28,7 +28,7 @@ export default function Layout() {
           backgroundColor: "#f5f5f5",
           margin: 0,
           padding: 0,
-          marginBottom: 0, // Ensure no bottom margin
+          marginBottom: 0, 
         }}
       >
         <Container 
@@ -38,14 +38,14 @@ export default function Layout() {
             paddingTop: "24px",
             paddingLeft: "16px",
             paddingRight: "16px",
-            paddingBottom: "0 !important", // Force remove bottom padding
-            marginBottom: "0 !important", // Force remove bottom margin
+            paddingBottom: "0 !important", 
+            marginBottom: "0 !important", 
           }}
         >
           <Outlet />
         </Container>
       </Box>
-      
+      <Toolbar/>
       <Footer />
     </Box>
   );

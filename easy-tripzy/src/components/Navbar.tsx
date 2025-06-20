@@ -17,7 +17,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import tripIcon from "../../public/appicon.svg";
+import tripIcon from "../../src/assets/appicon.svg"
 import HotelIcon from "@mui/icons-material/Hotel";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import RestaurantIcon from "@mui/icons-material/Restaurant";
