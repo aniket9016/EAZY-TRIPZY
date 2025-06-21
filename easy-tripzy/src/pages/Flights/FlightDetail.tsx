@@ -11,12 +11,17 @@ import {
   CircularProgress,
   TextField,
   Paper,
+  Grid,
+  Chip,
+  Divider,
 } from "@mui/material";
 import FlightIcon from "@mui/icons-material/Flight";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PublicIcon from "@mui/icons-material/Public";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import InfoIcon from "@mui/icons-material/Info";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 import { useAuthStore } from "../../store/authStore";
 import { addFlightBooking } from "../../api/getApis";
 import { toast } from "react-toastify";
@@ -27,8 +32,16 @@ interface Flight {
   name: string;
   departingDate: string;
   returningDate: string;
+  departingTime?: string;
+  returningTime?: string;
+  departingCountry?: string;
   departingCity: string;
+  destinationCountry?: string;
   destinationCity: string;
+  combinedDepLocation?: string;
+  combinedDestination?: string;
+  returnDepartingTime?: string;
+  returnArrivingTime?: string;
   price: string;
   image: string;
   type: string;
@@ -42,7 +55,9 @@ export default function FlightDetail() {
   const token = useAuthStore((s) => s.token);
   const decoded: any = token ? jwtDecode(token) : null;
   const userID = decoded
-    ? decoded["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]
+    ? decoded[
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+      ]
     : null;
 
   const [confirmDialog, setConfirmDialog] = useState(false);
@@ -121,6 +136,22 @@ export default function FlightDetail() {
   const totalPrice = adults * price + kids * price * 0.5;
   const totalPriceDisplay = totalPrice.toFixed(2);
 
+  const formatDate = (dateString: string) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString("en-US", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  const formatTime = (timeString: string) => {
+    if (!timeString || timeString === "N/A") return "N/A";
+    return timeString;
+  };
+
   if (!flight) {
     return (
       <Box sx={{ p: 4, textAlign: "center" }}>
@@ -130,70 +161,206 @@ export default function FlightDetail() {
   }
 
   return (
-    <Box sx={{ p: 2 }}>
-      <Box display="flex" alignItems="center" gap={1} mb={2}>
-        <FlightIcon color="primary" />
-        <Typography variant="h4">{flight.name}</Typography>
+    <Box sx={{ p: 2, maxWidth: 1200, mx: "auto" }}>
+      {/* Header */}
+      <Box display="flex" alignItems="center" gap={1} mb={3}>
+        <AirplanemodeActiveIcon color="primary" sx={{ fontSize: 32 }} />
+        <Typography variant="h4" fontWeight="bold">
+          {flight.name}
+        </Typography>
+        <Chip
+          label={flight.type}
+          color={flight.type === "Round Trip" ? "primary" : "secondary"}
+          variant="outlined"
+        />
       </Box>
 
-      <img
-        src={`https://localhost:7032/Images/Flight/${flight.image}`}
-        alt={flight.name}
-        style={{
-          width: "100%",
-          maxHeight: 400,
-          objectFit: "cover",
-          borderRadius: 8,
-          boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-        }}
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.src = "/no-image.png";
-        }}
-      />
+      <Grid container spacing={3}>
+        {/* Flight Image */}
+        <Grid>
+          <img
+            src={`https://localhost:7032/Images/Flight/${flight.image}`}
+            alt={flight.name}
+            style={{
+              width: "100%",
+              height: 300,
+              objectFit: "cover",
+              borderRadius: 12,
+              boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+            }}
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.src = "/no-image.png";
+            }}
+          />
+        </Grid>
 
-      <Paper sx={{ mt: 3, p: 2, boxShadow: 4 }}>
-        <Box display="flex" alignItems="center" gap={1}>
-          <InfoIcon color="primary" />
-          <Typography>
-            {flight.departingCity} → {flight.destinationCity} ({flight.type})
-          </Typography>
-        </Box>
+        {/* Flight Details */}
+        <Grid>
+          <Paper sx={{ p: 3, height: "fit-content", boxShadow: 3 }}>
+            <Typography variant="h6" fontWeight="bold" mb={2} color="primary">
+              Flight Information
+            </Typography>
 
-        <Box display="flex" alignItems="center" gap={1} mt={1}>
-          <LocationOnIcon color="secondary" />
-          <Typography>{flight.departingDate} to {flight.returningDate}</Typography>
-        </Box>
+            {/* Route Information */}
+            <Box display="flex" alignItems="center" gap={2} mb={2}>
+              <LocationOnIcon color="primary" />
+              <Box>
+                <Typography variant="body1" fontWeight="bold">
+                  {flight.combinedDepLocation || flight.departingCity}
+                  {flight.departingCountry && ` (${flight.departingCountry})`}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Departure
+                </Typography>
+              </Box>
+              <FlightIcon sx={{ mx: 1, color: "primary.main" }} />
+              <Box>
+                <Typography variant="body1" fontWeight="bold">
+                  {flight.combinedDestination || flight.destinationCity}
+                  {flight.destinationCountry &&
+                    ` (${flight.destinationCountry})`}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Destination
+                </Typography>
+              </Box>
+            </Box>
 
-        <Box display="flex" alignItems="center" gap={1} mt={1}>
-          <PublicIcon />
-          <Typography>₹{flight.price} per adult</Typography>
-        </Box>
-      </Paper>
+            <Divider sx={{ my: 2 }} />
 
-      <Box mt={4} display="flex" justifyContent="space-between" flexWrap="wrap" gap={2}>
-        <Button variant="contained" onClick={handleBooking} sx={{ flexGrow: 1 }}>
-          Book Flight
+            {/* Departure Details */}
+            <Box mb={2}>
+              <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+                Outbound Flight
+              </Typography>
+              <Box display="flex" alignItems="center" gap={1} mb={1}>
+                <CalendarTodayIcon fontSize="small" color="secondary" />
+                <Typography variant="body2">
+                  <strong>Date:</strong> {formatDate(flight.departingDate)}
+                </Typography>
+              </Box>
+              {flight.departingTime && (
+                <Box display="flex" alignItems="center" gap={1}>
+                  <AccessTimeIcon fontSize="small" color="secondary" />
+                  <Typography variant="body2">
+                    <strong>Departure:</strong>{" "}
+                    {formatTime(flight.departingTime)}
+                  </Typography>
+                </Box>
+              )}
+              {flight.returningTime && (
+                <Box display="flex" alignItems="center" gap={1}>
+                  <AccessTimeIcon fontSize="small" color="secondary" />
+                  <Typography variant="body2">
+                    <strong>Arrival:</strong> {formatTime(flight.returningTime)}
+                  </Typography>
+                </Box>
+              )}
+            </Box>
+
+            {/* Return Details (if Round Trip) */}
+            {flight.type === "Round Trip" && flight.returningDate && (
+              <>
+                <Divider sx={{ my: 2 }} />
+                <Box mb={2}>
+                  <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+                    Return Flight
+                  </Typography>
+                  <Box display="flex" alignItems="center" gap={1} mb={1}>
+                    <CalendarTodayIcon fontSize="small" color="secondary" />
+                    <Typography variant="body2">
+                      <strong>Date:</strong> {formatDate(flight.returningDate)}
+                    </Typography>
+                  </Box>
+                  {flight.returnDepartingTime && (
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <AccessTimeIcon fontSize="small" color="secondary" />
+                      <Typography variant="body2">
+                        <strong>Departure:</strong>{" "}
+                        {formatTime(flight.returnDepartingTime)}
+                      </Typography>
+                    </Box>
+                  )}
+                  {flight.returnArrivingTime && (
+                    <Box display="flex" alignItems="center" gap={1}>
+                      <AccessTimeIcon fontSize="small" color="secondary" />
+                      <Typography variant="body2">
+                        <strong>Arrival:</strong>{" "}
+                        {formatTime(flight.returnArrivingTime)}
+                      </Typography>
+                    </Box>
+                  )}
+                </Box>
+              </>
+            )}
+
+            <Divider sx={{ my: 2 }} />
+
+            {/* Price Information */}
+            <Box display="flex" alignItems="center" gap={1}>
+              <PublicIcon color="primary" />
+              <Typography variant="h6" fontWeight="bold" color="primary">
+                ₹{parseInt(flight.price).toLocaleString()} per adult
+              </Typography>
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
+
+      {/* Action Buttons */}
+      <Box
+        mt={4}
+        display="flex"
+        justifyContent="center"
+        gap={2}
+        flexWrap="wrap"
+      >
+        <Button
+          variant="contained"
+          onClick={handleBooking}
+          size="large"
+          sx={{ minWidth: 200, py: 1.5 }}
+        >
+          Book This Flight
         </Button>
 
         <Button
           variant="outlined"
           onClick={() => navigate("/flights")}
           startIcon={<ArrowBackIcon />}
+          size="large"
           sx={{
-            flexGrow: 1,
-            color: "black",
-            borderColor: "black",
-            fontWeight: "bold",
+            minWidth: 200,
+            py: 1.5,
+            color: "primary.main",
+            borderColor: "primary.main",
+            "&:hover": {
+              borderColor: "primary.dark",
+              backgroundColor: "primary.50",
+            },
           }}
         >
-          Go Back to Flights
+          Back to Flights
         </Button>
       </Box>
 
-      <Dialog open={confirmDialog} onClose={() => setConfirmDialog(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>Confirm Flight Booking</DialogTitle>
-        <DialogContent sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}>
+      {/* Booking Confirmation Dialog */}
+      <Dialog
+        open={confirmDialog}
+        onClose={() => setConfirmDialog(false)}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>
+          <Box display="flex" alignItems="center" gap={1}>
+            <FlightIcon color="primary" />
+            Confirm Flight Booking
+          </Box>
+        </DialogTitle>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}
+        >
           <TextField
             label="Booking Date"
             type="date"
@@ -224,7 +391,7 @@ export default function FlightDetail() {
           />
 
           <TextField
-            label="Kids"
+            label="Kids (50% discount)"
             type="number"
             value={booking.kids}
             onChange={(e) => setBooking({ ...booking, kids: e.target.value })}
@@ -232,54 +399,82 @@ export default function FlightDetail() {
             fullWidth
           />
 
-          {booking.bookingDate && !errors.bookingDate && !errors.adults && parseInt(booking.adults) >= 1 && (
-            <Paper elevation={2} sx={{ p: 2, mt: 2, backgroundColor: "#f9f9f9" }}>
-              <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                Booking Summary
-              </Typography>
+          {booking.bookingDate &&
+            !errors.bookingDate &&
+            !errors.adults &&
+            parseInt(booking.adults) >= 1 && (
+              <Paper
+                elevation={2}
+                sx={{ p: 2, mt: 2, backgroundColor: "#f8f9fa" }}
+              >
+                <Typography variant="subtitle1" fontWeight="bold" mb={2}>
+                  Booking Summary
+                </Typography>
 
-              <Box display="flex" alignItems="center" gap={2}>
-                <img
-                  src={`https://localhost:7032/Images/Flight/${flight.image}`}
-                  alt={flight.name}
-                  style={{ width: 80, height: 60, objectFit: "cover", borderRadius: 8 }}
-                  onError={(e) => {
-                    const target = e.target as HTMLImageElement;
-                    target.src = "/no-image.png";
+                <Box display="flex" alignItems="center" gap={2} mb={2}>
+                  <img
+                    src={`https://localhost:7032/Images/Flight/${flight.image}`}
+                    alt={flight.name}
+                    style={{
+                      width: 60,
+                      height: 40,
+                      objectFit: "cover",
+                      borderRadius: 4,
+                    }}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.src = "/no-image.png";
+                    }}
+                  />
+                  <Box>
+                    <Typography variant="body1" fontWeight="bold">
+                      {flight.name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {flight.departingCity} → {flight.destinationCity}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: 1,
                   }}
-                />
-                <Typography variant="body1" fontWeight="bold">
-                  {flight.name}
-                </Typography>
-              </Box>
+                >
+                  <Typography variant="body2">
+                    <strong>Booking Date:</strong>
+                  </Typography>
+                  <Typography variant="body2">
+                    {formatDate(booking.bookingDate)}
+                  </Typography>
 
-              <Box mt={1}>
-                <Typography variant="body2">
-                  <strong>Booking Date:</strong> {booking.bookingDate}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Adults:</strong> {booking.adults}
-                </Typography>
-                <Typography variant="body2">
-                  <strong>Kids:</strong> {booking.kids}
-                </Typography>
-                <Typography variant="body2" fontWeight="bold">
-                  Total Price: ₹{totalPriceDisplay}
-                </Typography>
-              </Box>
-            </Paper>
-          )}
+                  <Typography variant="body2">
+                    <strong>Adults:</strong>
+                  </Typography>
+                  <Typography variant="body2">{booking.adults}</Typography>
 
-          <TextField
-            label="Total Price (₹)"
-            value={totalPriceDisplay}
-            InputProps={{ readOnly: true }}
-            fullWidth
-          />
+                  <Typography variant="body2">
+                    <strong>Kids:</strong>
+                  </Typography>
+                  <Typography variant="body2">{booking.kids}</Typography>
+
+                  <Typography variant="body2" fontWeight="bold">
+                    <strong>Total Price:</strong>
+                  </Typography>
+                  <Typography variant="body2" fontWeight="bold" color="primary">
+                    ₹{totalPriceDisplay}
+                  </Typography>
+                </Box>
+              </Paper>
+            )}
         </DialogContent>
         <DialogActions sx={{ px: 3, pb: 2 }}>
           <Button onClick={() => setConfirmDialog(false)}>Cancel</Button>
-          <Button variant="contained" onClick={confirmBooking}>Confirm Booking</Button>
+          <Button variant="contained" onClick={confirmBooking}>
+            Confirm Booking
+          </Button>
         </DialogActions>
       </Dialog>
     </Box>
